@@ -14,7 +14,7 @@
     "APP_NAME": "Laravel",
     "APP_ENV": "production",
     "APP_DEBUG": "false",
-    "APP_URL": "https://nama-app-kamu.vercel.app",
+    "APP_URL": "https://embodied-tau.vercel.app/",
     "LOG_CHANNEL": "stderr",
     "CACHE_DRIVER": "array",
     "SESSION_DRIVER": "cookie",
