@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+    <body class="min-h-screen bg-stone-50">
+        <flux:sidebar sticky collapsible="mobile" class="border-e border-neutral-200 bg-stone-50">
             <flux:sidebar.header>
-                <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
+                <a href="{{ route('dashboard') }}" wire:navigate class="flex h-10 min-w-0 flex-1 items-center px-2 text-xs font-medium tracking-[0.25em] text-neutral-900 uppercase in-data-flux-sidebar-collapsed-desktop:hidden">
+                    Embodied
+                </a>
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
@@ -34,7 +36,7 @@
         </flux:sidebar>
 
         <!-- Mobile User Menu -->
-        <flux:header class="lg:hidden">
+        <flux:header class="border-b border-neutral-200 bg-stone-50 lg:hidden">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <flux:spacer />
