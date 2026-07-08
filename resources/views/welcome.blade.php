@@ -2,8 +2,8 @@
 
     {{-- Hero --}}
     <section class="relative h-screen min-h-160 overflow-hidden bg-neutral-900">
-        <div class="absolute inset-0 bg-linear-to-br from-neutral-800 via-neutral-900 to-black"></div>
-        <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-black/40"></div>
+        <img src="{{ $heroImage }}" alt="" class="absolute inset-0 h-full w-full object-cover object-[70%_20%]">
+        <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-black/50"></div>
 
         <header class="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 text-white sm:px-10">
             <a href="{{ route('home') }}" class="text-xs font-medium tracking-[0.25em] uppercase">Embodied</a>
@@ -25,7 +25,7 @@
             <p class="mt-6 text-sm tracking-[0.2em] text-white/70 italic">wear what you are</p>
 
             <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-                <a href="#collection" class="border border-white bg-white px-8 py-3 text-[11px] tracking-[0.2em] text-neutral-900 uppercase hover:bg-white/90">Shop Collection</a>
+                <a href="#collection" class="border border-white bg-cream px-8 py-3 text-[11px] tracking-[0.2em] text-neutral-900 uppercase hover:bg-cream/90">Shop Collection</a>
                 <a href="#studio" class="border border-white/70 px-8 py-3 text-[11px] tracking-[0.2em] text-white uppercase hover:bg-white/10">Our Story</a>
             </div>
         </div>
@@ -78,7 +78,9 @@
 
     {{-- Studio notes --}}
     <section id="studio" class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-24 sm:px-10 lg:grid-cols-2">
-        <div class="aspect-4/5 w-full max-w-md bg-linear-to-br from-emerald-900/40 to-neutral-400"></div>
+        <div class="aspect-4/5 w-full max-w-md overflow-hidden bg-neutral-200">
+            <img src="{{ $aboutImage }}" alt="Embodied studio founder wearing a black polo and tailored trousers" class="h-full w-full object-cover">
+        </div>
 
         <div>
             <p class="mb-3 text-xs tracking-[0.3em] text-neutral-500 uppercase">Studio Notes</p>

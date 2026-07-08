@@ -104,7 +104,7 @@
             </div>
 
             @if ($products->isEmpty())
-                <div class="border border-neutral-200 bg-white p-12 text-center">
+                <div class="border border-neutral-200 bg-cream p-12 text-center">
                     <p class="mb-3 text-sm text-neutral-600">No products match your filters.</p>
                     <a href="{{ route('collection') }}" class="text-xs tracking-[0.15em] text-neutral-900 uppercase underline underline-offset-4">Clear filters</a>
                 </div>

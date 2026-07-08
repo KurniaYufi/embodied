@@ -16,7 +16,7 @@
         <div>
             <p class="mb-4 text-xs tracking-[0.3em] text-neutral-500 uppercase">Your Bag</p>
 
-            <div data-checkout-empty class="hidden border border-neutral-200 bg-white p-8 text-center text-sm text-neutral-500">
+            <div data-checkout-empty class="hidden border border-neutral-200 bg-cream p-8 text-center text-sm text-neutral-500">
                 Your bag is empty.
                 <a href="{{ route('collection') }}" class="mt-2 block text-neutral-900 underline underline-offset-4">Continue shopping</a>
             </div>

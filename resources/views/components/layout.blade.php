@@ -14,7 +14,7 @@
         @fonts
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="bg-stone-50 text-neutral-900 antialiased">
+    <body class="bg-cream text-neutral-900 antialiased">
         {{ $slot }}
 
         <x-cart-drawer />

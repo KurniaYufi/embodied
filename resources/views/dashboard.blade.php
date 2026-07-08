@@ -6,29 +6,29 @@
         </div>
 
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <a href="{{ route('seller.products') }}" wire:navigate class="border border-neutral-200 bg-white p-6 hover:border-neutral-400">
+            <a href="{{ route('seller.products') }}" wire:navigate class="border border-neutral-200 bg-cream p-6 hover:border-neutral-400">
                 <p class="mb-2 text-xs tracking-[0.2em] text-neutral-500 uppercase">Products</p>
                 <p class="font-serif text-3xl text-neutral-900">{{ $productCount }}</p>
             </a>
-            <a href="{{ route('seller.categories') }}" wire:navigate class="border border-neutral-200 bg-white p-6 hover:border-neutral-400">
+            <a href="{{ route('seller.categories') }}" wire:navigate class="border border-neutral-200 bg-cream p-6 hover:border-neutral-400">
                 <p class="mb-2 text-xs tracking-[0.2em] text-neutral-500 uppercase">Categories</p>
                 <p class="font-serif text-3xl text-neutral-900">{{ $categoryCount }}</p>
             </a>
-            <a href="{{ route('seller.products') }}" wire:navigate class="border border-neutral-200 bg-white p-6 hover:border-neutral-400">
+            <a href="{{ route('seller.products') }}" wire:navigate class="border border-neutral-200 bg-cream p-6 hover:border-neutral-400">
                 <p class="mb-2 text-xs tracking-[0.2em] text-neutral-500 uppercase">Out of Stock</p>
                 <p class="font-serif text-3xl text-neutral-900">{{ $outOfStockCount }}</p>
             </a>
-            <a href="{{ route('seller.transactions') }}" wire:navigate class="border border-neutral-200 bg-white p-6 hover:border-neutral-400">
+            <a href="{{ route('seller.transactions') }}" wire:navigate class="border border-neutral-200 bg-cream p-6 hover:border-neutral-400">
                 <p class="mb-2 text-xs tracking-[0.2em] text-neutral-500 uppercase">Total Orders</p>
                 <p class="font-serif text-3xl text-neutral-900">{{ $orderCount }}</p>
             </a>
-            <a href="{{ route('seller.transactions') }}" wire:navigate class="border border-neutral-200 bg-white p-6 hover:border-neutral-400">
+            <a href="{{ route('seller.transactions') }}" wire:navigate class="border border-neutral-200 bg-cream p-6 hover:border-neutral-400">
                 <p class="mb-2 text-xs tracking-[0.2em] text-neutral-500 uppercase">Awaiting Confirmation</p>
                 <p class="font-serif text-3xl text-neutral-900">{{ $awaitingConfirmationCount }}</p>
             </a>
         </div>
 
-        <div class="h-full flex-1 border border-neutral-200 bg-white p-6">
+        <div class="h-full flex-1 border border-neutral-200 bg-cream p-6">
             <p class="mb-4 text-xs tracking-[0.2em] text-neutral-500 uppercase">Recently Added Products</p>
 
             @if ($recentProducts->isEmpty())

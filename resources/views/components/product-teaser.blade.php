@@ -3,7 +3,7 @@
     'price',
     'href' => '#',
     'badge' => null,
-    'badgeClass' => 'bg-white text-neutral-900',
+    'badgeClass' => 'bg-cream text-neutral-900',
     'gradient' => 'from-neutral-200 to-neutral-300',
     'image' => null,
     'imageClass' => 'aspect-square',

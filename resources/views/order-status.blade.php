@@ -39,7 +39,7 @@
             </div>
         @enderror
 
-        <div class="mb-10 flex flex-wrap items-center justify-between gap-4 border border-neutral-200 bg-white p-6">
+        <div class="mb-10 flex flex-wrap items-center justify-between gap-4 border border-neutral-200 bg-cream p-6">
             <div>
                 <p class="text-xs tracking-[0.2em] text-neutral-500 uppercase">Order Number</p>
                 <p class="font-serif text-2xl">{{ $order->number }}</p>
@@ -52,7 +52,7 @@
         </div>
 
         {{-- Items --}}
-        <div class="mb-10 border border-neutral-200 bg-white">
+        <div class="mb-10 border border-neutral-200 bg-cream">
             <div class="divide-y divide-neutral-100 px-6">
                 @foreach ($order->items as $item)
                     <div class="flex items-center justify-between gap-4 py-4 text-sm">
@@ -76,7 +76,7 @@
         </div>
 
         {{-- Shipping details --}}
-        <div class="mb-10 border border-neutral-200 bg-white p-6">
+        <div class="mb-10 border border-neutral-200 bg-cream p-6">
             <p class="mb-3 text-xs tracking-[0.2em] text-neutral-500 uppercase">Shipping To</p>
             <p class="text-sm">{{ $order->customer_name }}</p>
             <p class="text-sm text-neutral-600">{{ $order->customer_phone }}</p>
@@ -88,7 +88,7 @@
 
         @if ($canUploadProof)
             {{-- Payment instructions --}}
-            <div class="mb-10 border border-neutral-200 bg-white p-6">
+            <div class="mb-10 border border-neutral-200 bg-cream p-6">
                 <p class="mb-3 text-xs tracking-[0.2em] text-neutral-500 uppercase">Bank Transfer</p>
                 <div class="space-y-1 text-sm">
                     <p>Bank Central Asia (BCA)</p>
@@ -99,7 +99,7 @@
             </div>
 
             {{-- Proof upload --}}
-            <div class="border border-neutral-200 bg-white p-6">
+            <div class="border border-neutral-200 bg-cream p-6">
                 <p id="proof-heading" class="mb-3 text-xs tracking-[0.2em] text-neutral-500 uppercase">
                     {{ $order->hasPaymentProof() ? 'Replace Proof of Payment' : 'Upload Proof of Payment' }}
                 </p>
@@ -117,7 +117,7 @@
                 </form>
             </div>
         @elseif ($order->hasPaymentProof())
-            <div class="border border-neutral-200 bg-white p-6">
+            <div class="border border-neutral-200 bg-cream p-6">
                 <p class="mb-3 text-xs tracking-[0.2em] text-neutral-500 uppercase">Proof of Payment</p>
                 <img src="{{ $order->payment_proof_url }}" alt="Payment proof" class="max-h-64 border border-neutral-200 object-contain">
             </div>

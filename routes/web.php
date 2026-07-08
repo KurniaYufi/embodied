@@ -8,11 +8,14 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('welcome', [
         'newArrivals' => Product::orderBy('id')->take(5)->get(),
         'lookbook' => Product::where('is_new', true)->orderBy('id')->take(3)->get(),
+        'heroImage' => Storage::disk('supabase')->url('site/hero.png'),
+        'aboutImage' => Storage::disk('supabase')->url('site/about.jpg'),
     ]);
 })->name('home');
 

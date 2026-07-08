@@ -9,8 +9,8 @@
         <script>window.localStorage.setItem('flux.appearance', 'light')</script>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-stone-50">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-neutral-200 bg-stone-50">
+    <body class="min-h-screen bg-cream">
+        <flux:sidebar sticky collapsible="mobile" class="border-e border-neutral-200 bg-cream">
             <flux:sidebar.header>
                 <a href="{{ route('dashboard') }}" wire:navigate class="flex h-10 min-w-0 flex-1 items-center px-2 text-xs font-medium tracking-[0.25em] text-neutral-900 uppercase in-data-flux-sidebar-collapsed-desktop:hidden">
                     Embodied
@@ -45,7 +45,7 @@
         </flux:sidebar>
 
         <!-- Mobile User Menu -->
-        <flux:header class="border-b border-neutral-200 bg-stone-50 lg:hidden">
+        <flux:header class="border-b border-neutral-200 bg-cream lg:hidden">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <flux:spacer />

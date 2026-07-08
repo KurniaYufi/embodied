@@ -5,7 +5,7 @@
     role="dialog"
     aria-modal="true"
     aria-labelledby="cart-heading"
-    class="fixed top-0 right-0 z-50 flex h-full w-full max-w-md translate-x-full flex-col bg-stone-50 shadow-xl transition-transform duration-300"
+    class="fixed top-0 right-0 z-50 flex h-full w-full max-w-md translate-x-full flex-col bg-cream shadow-xl transition-transform duration-300"
 >
     <div class="flex shrink-0 items-center justify-between border-b border-neutral-200 px-6 py-5">
         <p id="cart-heading" class="text-xs tracking-[0.25em] uppercase">Your Bag (<span data-cart-count>0</span>)</p>
