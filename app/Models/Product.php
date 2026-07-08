@@ -24,16 +24,13 @@ class Product extends Model
         'image',
         'is_bestseller',
         'is_new',
-        'in_stock',
-        'rating',
-        'reviews_count',
+        'stock',
     ];
 
     protected $casts = [
         'is_bestseller' => 'boolean',
         'is_new' => 'boolean',
-        'in_stock' => 'boolean',
-        'rating' => 'decimal:1',
+        'stock' => 'integer',
     ];
 
     public function getRouteKeyName(): string
@@ -63,6 +60,11 @@ class Product extends Model
             $this->is_new => 'New',
             default => null,
         });
+    }
+
+    protected function inStock(): Attribute
+    {
+        return Attribute::get(fn () => $this->stock > 0);
     }
 
     protected function imageUrl(): Attribute

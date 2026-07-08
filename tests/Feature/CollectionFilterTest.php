@@ -58,8 +58,8 @@ test('price filter narrows results by range', function () {
 });
 
 test('in-stock filter is on by default and hides out-of-stock products', function () {
-    Product::factory()->create(['name' => 'Available Item', 'in_stock' => true]);
-    Product::factory()->create(['name' => 'Sold Out Item', 'in_stock' => false]);
+    Product::factory()->create(['name' => 'Available Item', 'stock' => 5]);
+    Product::factory()->create(['name' => 'Sold Out Item', 'stock' => 0]);
 
     $response = $this->get('/collection');
 

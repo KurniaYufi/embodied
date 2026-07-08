@@ -32,7 +32,7 @@ class CollectionController extends Controller
                 '1000-plus' => $query->where('price', '>', 1000000),
                 default => $query,
             })
-            ->when($stock, fn ($query) => $query->where('in_stock', true))
+            ->when($stock, fn ($query) => $query->where('stock', '>', 0))
             ->tap(fn ($query) => match ($sort) {
                 'price-asc' => $query->orderBy('price'),
                 'price-desc' => $query->orderByDesc('price'),

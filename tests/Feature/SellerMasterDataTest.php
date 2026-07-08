@@ -69,6 +69,35 @@ test('seller can create a product with sizes and a category', function () {
     expect($product->sizes->pluck('label')->sort()->values()->all())->toBe(['M', 'S']);
 });
 
+test('seller can set and edit a product stock quantity', function () {
+    $category = Category::factory()->create();
+
+    Livewire::test('pages::seller.products')
+        ->set('name', 'Stocked Item')
+        ->set('categoryId', $category->id)
+        ->set('description', 'Has a stock count.')
+        ->set('price', 200000)
+        ->set('stock', 15)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $product = Product::where('name', 'Stocked Item')->first();
+
+    expect($product->stock)->toBe(15);
+    expect($product->in_stock)->toBeTrue();
+
+    Livewire::test('pages::seller.products')
+        ->call('edit', $product->id)
+        ->set('stock', 0)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $product->refresh();
+
+    expect($product->stock)->toBe(0);
+    expect($product->in_stock)->toBeFalse();
+});
+
 test('seller can upload, replace and remove a product photo', function () {
     Storage::fake('supabase');
 

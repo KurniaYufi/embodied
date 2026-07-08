@@ -25,8 +25,7 @@ class ProductSeeder extends Seeder
                 'gradient' => 'from-neutral-300 to-neutral-400',
                 'is_bestseller' => true,
                 'is_new' => false,
-                'rating' => 5,
-                'reviews_count' => 12,
+                'stock' => 8,
                 'description' => 'An oversized coat cut from heavyweight linen, built to drape rather than structure. Dropped shoulders and a relaxed silhouette make it as easy to layer as it is to wear alone.',
                 'sizes' => ['S', 'M', 'L', 'XL'],
             ],
@@ -38,8 +37,7 @@ class ProductSeeder extends Seeder
                 'gradient' => 'from-sky-100 to-neutral-300',
                 'is_bestseller' => false,
                 'is_new' => true,
-                'rating' => 4,
-                'reviews_count' => 8,
+                'stock' => 25,
                 'description' => 'A boxy linen shirt with a soft hand-feel that only improves with wear. Cut generous through the body for effortless layering over or under anything.',
                 'sizes' => ['S', 'M', 'L', 'XL'],
             ],
@@ -51,8 +49,7 @@ class ProductSeeder extends Seeder
                 'gradient' => 'from-stone-200 to-stone-400',
                 'is_bestseller' => false,
                 'is_new' => false,
-                'rating' => 5,
-                'reviews_count' => 6,
+                'stock' => 18,
                 'description' => 'Wide-leg trousers in a fluid, breathable weave. Sits at the natural waist with a relaxed drape through the leg for all-day movement.',
                 'sizes' => ['S', 'M', 'L', 'XL'],
             ],
@@ -64,8 +61,7 @@ class ProductSeeder extends Seeder
                 'gradient' => 'from-neutral-200 to-neutral-400',
                 'is_bestseller' => false,
                 'is_new' => true,
-                'rating' => 5,
-                'reviews_count' => 9,
+                'stock' => 14,
                 'description' => 'Cut on the bias for a fluid drape that moves with the body. Minimal detailing lets the fabric do the work, day or night.',
                 'sizes' => ['XS', 'S', 'M', 'L'],
             ],
@@ -77,8 +73,7 @@ class ProductSeeder extends Seeder
                 'gradient' => 'from-neutral-300 to-neutral-500',
                 'is_bestseller' => false,
                 'is_new' => false,
-                'rating' => 4,
-                'reviews_count' => 14,
+                'stock' => 40,
                 'description' => 'A heavyweight cotton tee with a dropped shoulder and boxy fit. The everyday foundation piece, built to hold its shape wash after wash.',
                 'sizes' => ['S', 'M', 'L', 'XL'],
             ],
@@ -90,8 +85,7 @@ class ProductSeeder extends Seeder
                 'gradient' => 'from-emerald-900/30 to-neutral-400',
                 'is_bestseller' => false,
                 'is_new' => true,
-                'rating' => 5,
-                'reviews_count' => 7,
+                'stock' => 20,
                 'description' => 'A half-zip wrap top in brushed linen-cotton, designed for layering through every season. Relaxed through the body with a raised collar.',
                 'sizes' => ['S', 'M', 'L'],
             ],
@@ -103,7 +97,6 @@ class ProductSeeder extends Seeder
             unset($data['sizes'], $data['category']);
 
             $data['category_id'] = Category::where('slug', $categorySlug)->value('id');
-            $data['in_stock'] = true;
             $data['image'] = PlaceholderImageGenerator::generate($data['slug'], $data['gradient']);
 
             $product = Product::updateOrCreate(['slug' => $data['slug']], $data);

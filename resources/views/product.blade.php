@@ -27,18 +27,35 @@
             <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">{{ $product->category?->name ?? 'Collection 01' }}</p>
             <h2 class="mb-3 font-serif text-3xl sm:text-4xl">{{ $product->name }}</h2>
 
-            <x-star-rating :rating="(float) $product->rating" :reviews="$product->reviews_count . ' reviews'" class="mb-4" />
+            <p class="mb-4 text-xs text-neutral-500">
+                {{ $product->stock > 0 ? "{$product->stock} in stock" : 'Out of stock' }}
+            </p>
 
             <p class="mb-6 text-xl">{{ $product->formatted_price }}</p>
 
             <p class="mb-8 text-sm leading-relaxed text-neutral-600">{{ $product->description }}</p>
 
+            @php
+                $availableSizeLabels = $product->sizes->pluck('label');
+                $firstAvailableSize = $product->sizes->first()?->label;
+            @endphp
+
             <div data-product-form>
                 <p class="mb-3 text-xs tracking-[0.2em] text-neutral-500 uppercase">Size</p>
                 <div class="mb-8 flex flex-wrap gap-2">
-                    @foreach ($product->sizes as $index => $size)
-                        <label class="cursor-pointer border border-neutral-300 px-4 py-2 text-xs tracking-[0.1em] uppercase has-checked:border-neutral-900 has-checked:bg-neutral-900 has-checked:text-white">
-                            <input type="radio" name="size" value="{{ $size->label }}" class="sr-only" @checked($index === 0)>
+                    @foreach ($allSizes as $size)
+                        @php $isAvailable = $availableSizeLabels->contains($size->label); @endphp
+                        <label class="{{ $isAvailable
+                            ? 'cursor-pointer border border-neutral-300 px-4 py-2 text-xs tracking-[0.1em] uppercase has-checked:border-neutral-900 has-checked:bg-neutral-900 has-checked:text-white'
+                            : 'cursor-not-allowed border border-neutral-200 px-4 py-2 text-xs tracking-[0.1em] text-neutral-300 uppercase line-through' }}">
+                            <input
+                                type="radio"
+                                name="size"
+                                value="{{ $size->label }}"
+                                class="sr-only"
+                                @disabled(! $isAvailable)
+                                @checked($size->label === $firstAvailableSize)
+                            >
                             {{ $size->label }}
                         </label>
                     @endforeach

@@ -35,9 +35,7 @@ new #[Title('Products')] class extends Component {
     public string $gradient = 'from-neutral-300 to-neutral-400';
     public bool $isBestseller = false;
     public bool $isNew = false;
-    public bool $inStock = true;
-    public float $rating = 5.0;
-    public int $reviewsCount = 0;
+    public int $stock = 0;
 
     /** @var array<int, int> */
     public array $sizeIds = [];
@@ -100,9 +98,7 @@ new #[Title('Products')] class extends Component {
         $this->gradient = $product->gradient;
         $this->isBestseller = $product->is_bestseller;
         $this->isNew = $product->is_new;
-        $this->inStock = $product->in_stock;
-        $this->rating = (float) $product->rating;
-        $this->reviewsCount = $product->reviews_count;
+        $this->stock = $product->stock;
         $this->sizeIds = $product->sizes->pluck('id')->all();
         $this->currentImage = $product->image;
 
@@ -117,8 +113,7 @@ new #[Title('Products')] class extends Component {
             'description' => ['required', 'string'],
             'price' => ['required', 'integer', 'min:0'],
             'gradient' => ['required', Rule::in(array_keys(self::GRADIENTS))],
-            'rating' => ['required', 'numeric', 'min:0', 'max:5'],
-            'reviewsCount' => ['required', 'integer', 'min:0'],
+            'stock' => ['required', 'integer', 'min:0'],
             'sizeIds' => ['array'],
             'sizeIds.*' => ['exists:sizes,id'],
             'photo' => ['nullable', 'image', 'max:4096'],
@@ -160,9 +155,7 @@ new #[Title('Products')] class extends Component {
                 'image' => $imagePath,
                 'is_bestseller' => $this->isBestseller,
                 'is_new' => $this->isNew,
-                'in_stock' => $this->inStock,
-                'rating' => $validated['rating'],
-                'reviews_count' => $validated['reviewsCount'],
+                'stock' => $validated['stock'],
             ],
         );
 
@@ -190,11 +183,9 @@ new #[Title('Products')] class extends Component {
     {
         $this->reset([
             'editingId', 'name', 'categoryId', 'description', 'price', 'isBestseller',
-            'isNew', 'reviewsCount', 'sizeIds', 'photo', 'removePhoto', 'currentImage',
+            'isNew', 'stock', 'sizeIds', 'photo', 'removePhoto', 'currentImage',
         ]);
         $this->gradient = array_key_first(self::GRADIENTS);
-        $this->rating = 5.0;
-        $this->inStock = true;
         $this->resetErrorBag();
     }
 }; ?>
@@ -217,7 +208,8 @@ new #[Title('Products')] class extends Component {
             <flux:table.column>Name</flux:table.column>
             <flux:table.column>Category</flux:table.column>
             <flux:table.column>Price</flux:table.column>
-            <flux:table.column>Status</flux:table.column>
+            <flux:table.column>Badges</flux:table.column>
+            <flux:table.column>Stock</flux:table.column>
             <flux:table.column>Sizes</flux:table.column>
             <flux:table.column></flux:table.column>
         </flux:table.columns>
@@ -234,14 +226,16 @@ new #[Title('Products')] class extends Component {
                     <flux:table.cell>{{ $product->category?->name ?? '—' }}</flux:table.cell>
                     <flux:table.cell>{{ $product->formatted_price }}</flux:table.cell>
                     <flux:table.cell>
-                        <div class="flex flex-wrap gap-1">
-                            @if ($product->badge)
-                                <flux:badge size="sm">{{ $product->badge }}</flux:badge>
-                            @endif
-                            <flux:badge size="sm" :color="$product->in_stock ? 'green' : 'red'">
-                                {{ $product->in_stock ? 'In Stock' : 'Out of Stock' }}
-                            </flux:badge>
-                        </div>
+                        @if ($product->badge)
+                            <flux:badge size="sm">{{ $product->badge }}</flux:badge>
+                        @else
+                            —
+                        @endif
+                    </flux:table.cell>
+                    <flux:table.cell>
+                        <flux:badge size="sm" :color="$product->stock > 0 ? 'green' : 'red'">
+                            {{ $product->stock > 0 ? $product->stock : 'Out of stock' }}
+                        </flux:badge>
                     </flux:table.cell>
                     <flux:table.cell>{{ $product->sizes->pluck('label')->implode(', ') ?: '—' }}</flux:table.cell>
                     <flux:table.cell>
@@ -253,7 +247,7 @@ new #[Title('Products')] class extends Component {
                 </flux:table.row>
             @empty
                 <flux:table.row>
-                    <flux:table.cell colspan="7" class="text-center text-neutral-500">No products yet.</flux:table.cell>
+                    <flux:table.cell colspan="8" class="text-center text-neutral-500">No products yet.</flux:table.cell>
                 </flux:table.row>
             @endforelse
         </flux:table.rows>
@@ -277,10 +271,9 @@ new #[Title('Products')] class extends Component {
 
             <flux:textarea wire:model="description" label="Description" rows="3" />
 
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <flux:input wire:model="price" type="number" label="Price (Rp)" min="0" />
-                <flux:input wire:model="rating" type="number" step="0.1" min="0" max="5" label="Rating" />
-                <flux:input wire:model="reviewsCount" type="number" min="0" label="Reviews Count" />
+                <flux:input wire:model="stock" type="number" label="Stock Quantity" min="0" />
             </div>
 
             <div>
@@ -322,7 +315,6 @@ new #[Title('Products')] class extends Component {
             <div class="flex flex-wrap gap-6">
                 <flux:checkbox wire:model="isBestseller" label="Bestseller badge" />
                 <flux:checkbox wire:model="isNew" label="New badge" />
-                <flux:checkbox wire:model="inStock" label="In stock" />
             </div>
 
             <div class="flex justify-end gap-2">

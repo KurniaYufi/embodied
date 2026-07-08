@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,6 +25,7 @@ Route::get('/collection', [CollectionController::class, 'index'])->name('collect
 Route::get('/product/{product}', function (Product $product) {
     return view('product', [
         'product' => $product->load('sizes'),
+        'allSizes' => Size::orderBy('sort_order')->get(),
     ]);
 })->name('product.show');
 
@@ -40,7 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard', [
             'productCount' => Product::count(),
             'categoryCount' => Category::count(),
-            'outOfStockCount' => Product::where('in_stock', false)->count(),
+            'outOfStockCount' => Product::where('stock', '<=', 0)->count(),
             'orderCount' => Order::count(),
             'awaitingConfirmationCount' => Order::where('status', OrderStatus::AwaitingConfirmation)->count(),
             'recentProducts' => Product::with('category')->latest()->take(5)->get(),

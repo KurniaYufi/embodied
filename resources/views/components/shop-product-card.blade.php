@@ -2,8 +2,7 @@
     'name',
     'price',
     'priceValue' => 0,
-    'rating' => 5,
-    'reviews' => 0,
+    'stock' => 0,
     'badge' => null,
     'gradient' => 'from-neutral-200 to-neutral-300',
     'image' => null,
@@ -38,7 +37,9 @@
     <h3 class="relative z-10 text-sm font-medium">{{ $name }}</h3>
     <p class="relative z-10 mb-2 text-sm text-neutral-500">{{ $price }}</p>
 
-    <x-star-rating :rating="$rating" :reviews="$reviews" class="relative z-10 mb-3" />
+    <p class="relative z-10 mb-3 text-xs text-neutral-500">
+        {{ $stock > 0 ? "Stock: {$stock}" : 'Out of stock' }}
+    </p>
 
     <button
         type="button"

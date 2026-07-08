@@ -35,9 +35,7 @@ class ProductFactory extends Factory
             ]),
             'is_bestseller' => false,
             'is_new' => false,
-            'in_stock' => true,
-            'rating' => fake()->randomFloat(1, 3.5, 5),
-            'reviews_count' => fake()->numberBetween(0, 40),
+            'stock' => fake()->numberBetween(0, 50),
         ];
     }
 }
