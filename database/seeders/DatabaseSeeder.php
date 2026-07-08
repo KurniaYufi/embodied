@@ -28,5 +28,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin-emboied@embodied.com',
             'password' => Hash::make('embodied123'),
         ]);
+
+        $this->call([
+            CategorySeeder::class,
+            SizeSeeder::class,
+            ProductSeeder::class,
+            OrderSeeder::class,
+        ]);
     }
 }

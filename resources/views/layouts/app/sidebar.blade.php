@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+        {{-- This admin area is styled light-only to match the storefront's design system, so
+             it never adopted dark: variants. @fluxAppearance below re-applies dark mode on
+             every Livewire navigation when the visitor's OS prefers it, which would make our
+             uncolored text invisible — pin Flux's own stored preference to "light" (the same
+             mechanism the real Appearance settings page uses) so it stays light everywhere. --}}
+        <script>window.localStorage.setItem('flux.appearance', 'light')</script>
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-stone-50">
@@ -17,20 +23,23 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+
+                    <flux:sidebar.group :heading="__('Master Data')" icon="archive-box" expandable :expanded="request()->routeIs('seller.products', 'seller.categories')">
+                        <flux:sidebar.item :href="route('seller.products')" :current="request()->routeIs('seller.products')" wire:navigate>
+                            {{ __('Products') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item :href="route('seller.categories')" :current="request()->routeIs('seller.categories')" wire:navigate>
+                            {{ __('Categories') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+
+                    <flux:sidebar.item icon="banknotes" :href="route('seller.transactions')" :current="request()->routeIs('seller.transactions')" wire:navigate>
+                        {{ __('Transaksi') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
             <flux:spacer />
-
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
-            </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>

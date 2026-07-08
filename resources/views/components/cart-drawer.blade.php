@@ -1,12 +1,16 @@
 <div data-cart-overlay class="fixed inset-0 z-40 hidden bg-black/40" data-cart-close></div>
 
-<aside data-cart-drawer class="fixed top-0 right-0 z-50 flex h-full w-full max-w-md translate-x-full flex-col bg-stone-50 shadow-xl transition-transform duration-300">
+<aside
+    data-cart-drawer
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cart-heading"
+    class="fixed top-0 right-0 z-50 flex h-full w-full max-w-md translate-x-full flex-col bg-stone-50 shadow-xl transition-transform duration-300"
+>
     <div class="flex shrink-0 items-center justify-between border-b border-neutral-200 px-6 py-5">
-        <p class="text-xs tracking-[0.25em] uppercase">Your Bag (<span data-cart-count>0</span>)</p>
+        <p id="cart-heading" class="text-xs tracking-[0.25em] uppercase">Your Bag (<span data-cart-count>0</span>)</p>
         <button type="button" data-cart-close aria-label="Close bag" class="text-neutral-500 hover:text-neutral-900">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
-            </svg>
+            <flux:icon.x-mark class="h-5 w-5" />
         </button>
     </div>
 
@@ -19,7 +23,7 @@
             <span data-cart-subtotal>Rp 0</span>
         </div>
         <p class="mb-4 text-xs text-neutral-500">Shipping calculated at checkout</p>
-        <button type="button" class="mb-3 w-full bg-neutral-900 py-3 text-[11px] tracking-[0.2em] text-white uppercase hover:bg-black">Checkout</button>
+        <a href="{{ route('checkout') }}" class="mb-3 block w-full bg-neutral-900 py-3 text-center text-[11px] tracking-[0.2em] text-white uppercase hover:bg-black">Checkout</a>
         <button type="button" data-cart-close class="w-full border border-neutral-300 py-3 text-[11px] tracking-[0.2em] uppercase hover:border-neutral-900">Continue Shopping</button>
     </div>
 </aside>

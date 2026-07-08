@@ -1,21 +1,49 @@
 <?php
 
-use App\Support\Catalog;
+use App\Enums\OrderStatus;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\OrderController;
+use App\Models\Category;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
-Route::view('/collection', 'collection')->name('collection');
+Route::get('/', function () {
+    return view('welcome', [
+        'newArrivals' => Product::orderBy('id')->take(5)->get(),
+        'lookbook' => Product::where('is_new', true)->orderBy('id')->take(3)->get(),
+    ]);
+})->name('home');
 
-Route::get('/product/{slug}', function (string $slug) {
-    $product = Catalog::find($slug);
+Route::get('/collection', [CollectionController::class, 'index'])->name('collection');
 
-    abort_unless($product, 404);
-
-    return view('product', ['product' => $product]);
+Route::get('/product/{product}', function (Product $product) {
+    return view('product', [
+        'product' => $product->load('sizes'),
+    ]);
 })->name('product.show');
 
+Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+Route::get('/orders/{token}', [OrderController::class, 'show'])->name('orders.show');
+Route::post('/orders/{token}/payment-proof', [OrderController::class, 'uploadProof'])->name('orders.payment-proof');
+
+Route::view('/help', 'help')->name('help');
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', function () {
+        return view('dashboard', [
+            'productCount' => Product::count(),
+            'categoryCount' => Category::count(),
+            'outOfStockCount' => Product::where('in_stock', false)->count(),
+            'orderCount' => Order::count(),
+            'awaitingConfirmationCount' => Order::where('status', OrderStatus::AwaitingConfirmation)->count(),
+            'recentProducts' => Product::with('category')->latest()->take(5)->get(),
+        ]);
+    })->name('dashboard');
 });
 
 require __DIR__.'/settings.php';
+require __DIR__.'/seller.php';

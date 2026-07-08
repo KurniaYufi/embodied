@@ -13,14 +13,14 @@ function writeCart(items) {
     document.dispatchEvent(new CustomEvent('cart:updated'));
 }
 
-function addToCart({ name, priceValue, gradient, size }) {
+function addToCart({ name, priceValue, gradient, image, size }) {
     const items = readCart();
     const existing = items.find((item) => item.name === name && item.size === size);
 
     if (existing) {
         existing.qty += 1;
     } else {
-        items.push({ name, priceValue, gradient, size, qty: 1 });
+        items.push({ name, priceValue, gradient, image: image || null, size, qty: 1 });
     }
 
     writeCart(items);
@@ -48,6 +48,12 @@ function formatRupiah(value) {
     return 'Rp ' + value.toLocaleString('id-ID');
 }
 
+function thumbnailHtml(item, sizeClass) {
+    return item.image
+        ? `<img src="${item.image}" alt="${item.name}" loading="lazy" class="${sizeClass} shrink-0 overflow-hidden object-cover">`
+        : `<div class="${sizeClass} shrink-0 overflow-hidden bg-neutral-100"><div class="h-full w-full bg-linear-to-br ${item.gradient}"></div></div>`;
+}
+
 function renderCart() {
     const list = document.querySelector('[data-cart-list]');
 
@@ -72,9 +78,7 @@ function renderCart() {
         const row = document.createElement('div');
         row.className = 'flex gap-4 border-b border-neutral-200 px-6 py-6';
         row.innerHTML = `
-            <div class="h-20 w-20 shrink-0 overflow-hidden bg-neutral-100">
-                <div class="h-full w-full bg-linear-to-br ${item.gradient}"></div>
-            </div>
+            ${thumbnailHtml(item, 'h-20 w-20')}
             <div class="flex flex-1 flex-col">
                 <p class="text-sm font-medium">${item.name}</p>
                 <p class="mb-3 text-xs text-neutral-500">Size: ${item.size}</p>
@@ -100,6 +104,10 @@ function renderCart() {
     });
 }
 
+function clearCart() {
+    writeCart([]);
+}
+
 function openCart() {
     document.querySelector('[data-cart-drawer]')?.classList.remove('translate-x-full');
     document.querySelector('[data-cart-overlay]')?.classList.remove('hidden');
@@ -113,6 +121,12 @@ function closeCart() {
 document.addEventListener('DOMContentLoaded', renderCart);
 document.addEventListener('cart:updated', renderCart);
 
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        closeCart();
+    }
+});
+
 document.addEventListener('click', (event) => {
     const addButton = event.target.closest('[data-add-to-cart]');
     if (addButton) {
@@ -122,6 +136,7 @@ document.addEventListener('click', (event) => {
             name: addButton.dataset.name,
             priceValue: Number(addButton.dataset.priceValue),
             gradient: addButton.dataset.gradient,
+            image: addButton.dataset.image,
             size: selectedSize?.value ?? addButton.dataset.size,
         });
         return;
@@ -148,3 +163,5 @@ document.addEventListener('click', (event) => {
         updateQty(Number(increase.dataset.qtyIncrease), 1);
     }
 });
+
+window.EmbodiedCart = { readCart, formatRupiah, clearCart, thumbnailHtml };

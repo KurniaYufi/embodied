@@ -49,24 +49,26 @@
             <a href="{{ route('collection') }}" class="text-xs tracking-[0.2em] text-neutral-600 uppercase underline underline-offset-4 hover:text-neutral-900">View All</a>
         </div>
 
-        @php $newArrivals = \App\Support\Catalog::products(); @endphp
-
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <x-product-teaser
-                :name="$newArrivals[0]['name']"
-                :price="$newArrivals[0]['price']"
-                :badge="$newArrivals[0]['badge']"
-                :href="route('product.show', $newArrivals[0]['slug'])"
+                :name="$newArrivals->first()->name"
+                :price="$newArrivals->first()->formatted_price"
+                :badge="$newArrivals->first()->badge"
+                :gradient="$newArrivals->first()->gradient"
+                :image="$newArrivals->first()->image_url"
+                :href="route('product.show', $newArrivals->first())"
                 image-class="aspect-4/5 lg:aspect-auto lg:h-full"
                 class="bg-neutral-200 lg:row-span-2"
             />
 
             <div class="grid grid-cols-2 gap-4 lg:col-span-2">
-                @foreach (array_slice($newArrivals, 1, 4) as $product)
+                @foreach ($newArrivals->slice(1) as $product)
                     <x-product-teaser
-                        :name="$product['name']"
-                        :price="$product['price']"
-                        :href="route('product.show', $product['slug'])"
+                        :name="$product->name"
+                        :price="$product->formatted_price"
+                        :gradient="$product->gradient"
+                        :image="$product->image_url"
+                        :href="route('product.show', $product)"
                         class="bg-neutral-100"
                     />
                 @endforeach
@@ -83,7 +85,7 @@
             <h3 class="mb-6 font-serif text-3xl leading-snug sm:text-4xl">&ldquo;Clothing that becomes a second skin.&rdquo;</h3>
             <p class="mb-4 text-sm leading-relaxed text-neutral-600">We work with natural fibres — linen, cotton, tencel — that breathe with the body and soften with wear. Every piece is cut to move, not to restrict.</p>
             <p class="mb-6 text-sm leading-relaxed text-neutral-600">Embodied was born from a desire to dress with intention. Slow production, limited quantities, thoughtful design. Nothing more.</p>
-            <p class="mb-4 text-xs text-neutral-400 italic">— Embodied Studio, Jakarta</p>
+            <p class="mb-4 text-xs text-neutral-500 italic">— Embodied Studio, Jakarta</p>
             <a href="#about" class="text-xs tracking-[0.2em] text-neutral-900 uppercase underline underline-offset-4">Read Our Story</a>
         </div>
     </section>
@@ -98,13 +100,17 @@
             <h2 class="font-serif text-4xl">The Lookbook</h2>
 
             <div class="mt-12 grid grid-cols-1 gap-6 text-left md:grid-cols-3">
-                @foreach ([
-                    ['label' => 'The Drift', 'price' => 'Rp 1.698.000'],
-                    ['label' => 'Undone', 'price' => 'Rp 529.000'],
-                    ['label' => 'Stillness', 'price' => 'Rp 798.000'],
-                ] as $look)
-                    <x-lookbook-card :label="$look['label']" :price="$look['price']" />
-                @endforeach
+                @forelse ($lookbook as $product)
+                    <x-lookbook-card
+                        :label="$product->name"
+                        :price="$product->formatted_price"
+                        :gradient="$product->gradient"
+                        :image="$product->image_url"
+                        :href="route('product.show', $product)"
+                    />
+                @empty
+                    <p class="text-sm text-neutral-500 md:col-span-3">New looks are on their way.</p>
+                @endforelse
             </div>
         </div>
     </section>
@@ -114,37 +120,35 @@
         <div class="mx-auto grid max-w-7xl grid-cols-2 gap-10 lg:grid-cols-4">
             <div class="col-span-2 lg:col-span-1">
                 <p class="mb-3 text-xs font-medium tracking-[0.25em] uppercase">Embodied</p>
-                <p class="mb-6 text-sm text-white/50">Wear what you are.</p>
-                <div class="flex gap-4 text-[11px] tracking-[0.15em] text-white/60 uppercase">
-                    <a href="#" class="hover:text-white">Instagram</a>
-                    <a href="#" class="hover:text-white">TikTok</a>
-                    <a href="#" class="hover:text-white">Pinterest</a>
+                <p class="mb-6 text-sm text-white/70">Wear what you are.</p>
+                <div class="flex gap-4 text-[11px] tracking-[0.15em] text-white/50 uppercase" aria-label="Social links coming soon">
+                    <span>Instagram</span>
+                    <span>TikTok</span>
+                    <span>Pinterest</span>
                 </div>
             </div>
 
             <x-footer-links title="Shop" :links="[
                 'Collection 01' => route('collection'),
-                'New Arrivals' => '#',
-                'Bestsellers' => '#',
-                'Gift Cards' => '#',
+                'New Arrivals' => route('collection', ['category' => 'new']),
+                'Bestsellers' => route('collection', ['category' => 'bestseller']),
             ]" />
 
             <x-footer-links title="Studio" :links="[
                 'Our Story' => '#studio',
-                'Process' => '#',
-                'Materials' => '#',
-                'Journal' => '#',
+                'Process' => '#studio',
+                'Materials' => '#studio',
             ]" />
 
             <x-footer-links title="Help" :links="[
-                'Sizing Guide' => '#',
-                'Shipping' => '#',
-                'Returns' => '#',
-                'Contact' => '#',
+                'Sizing Guide' => route('help') . '#sizing',
+                'Shipping' => route('help') . '#shipping',
+                'Returns' => route('help') . '#returns',
+                'Contact' => route('help') . '#contact',
             ]" />
         </div>
 
-        <div class="mx-auto mt-12 flex max-w-7xl flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:justify-between">
+        <div class="mx-auto mt-12 flex max-w-7xl flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row sm:justify-between">
             <span>&copy; {{ date('Y') }} Embodied Studio, Jakarta, Indonesia.</span>
             <span>Handcrafted with intention.</span>
         </div>
