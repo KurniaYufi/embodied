@@ -59,7 +59,7 @@ test('unknown order token returns 404', function () {
 });
 
 test('customer can upload a payment proof and status moves to awaiting confirmation', function () {
-    Storage::fake('public');
+    Storage::fake('supabase');
 
     $order = Order::factory()->create(['status' => OrderStatus::PendingPayment]);
     $file = UploadedFile::fake()->image('proof.jpg');
@@ -72,13 +72,13 @@ test('customer can upload a payment proof and status moves to awaiting confirmat
 
     expect($order->status)->toBe(OrderStatus::AwaitingConfirmation);
     expect($order->payment_proof_path)->not->toBeNull();
-    Storage::disk('public')->assertExists($order->payment_proof_path);
+    Storage::disk('supabase')->assertExists($order->payment_proof_path);
 
     $response->assertRedirect(route('orders.show', $order->access_token));
 });
 
 test('payment proof cannot be uploaded once order is paid', function () {
-    Storage::fake('public');
+    Storage::fake('supabase');
 
     $order = Order::factory()->create(['status' => OrderStatus::Paid]);
     $file = UploadedFile::fake()->image('proof.jpg');

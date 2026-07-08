@@ -55,7 +55,46 @@ class PlaceholderImageGenerator
         imagejpeg($final, null, 90);
         $contents = ob_get_clean();
 
-        Storage::disk('public')->put($path, $contents);
+        Storage::disk('supabase')->put($path, $contents);
+
+        return $path;
+    }
+
+    /**
+     * Generate a mock bank-transfer receipt image used to back seeded demo orders, so seeding
+     * doesn't depend on a binary fixture file being present on disk.
+     */
+    public static function generateSampleReceipt(): string
+    {
+        $width = 600;
+        $height = 800;
+
+        $image = imagecreatetruecolor($width, $height);
+        $background = imagecolorallocate($image, 245, 245, 244);
+        $foreground = imagecolorallocate($image, 60, 60, 60);
+
+        imagefilledrectangle($image, 0, 0, $width, $height, $background);
+        imagerectangle($image, 20, 20, $width - 20, $height - 20, $foreground);
+
+        $lines = [
+            'BANK TRANSFER RECEIPT', '',
+            'Bank: BCA', 'To: PT Embodied Studio', 'Acc: 1234567890', '',
+            'Status: SUCCESS', '', '(sample placeholder proof)',
+        ];
+
+        $y = 100;
+        foreach ($lines as $line) {
+            imagestring($image, 4, 60, $y, $line, $foreground);
+            $y += 30;
+        }
+
+        $path = 'payment-proofs/sample.jpg';
+
+        ob_start();
+        imagejpeg($image, null, 85);
+        $contents = ob_get_clean();
+
+        Storage::disk('supabase')->put($path, $contents);
 
         return $path;
     }

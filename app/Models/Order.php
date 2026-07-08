@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Order extends Model
@@ -52,7 +53,7 @@ class Order extends Model
 
     protected function paymentProofUrl(): Attribute
     {
-        return Attribute::get(fn () => $this->payment_proof_path ? asset('storage/'.$this->payment_proof_path) : null);
+        return Attribute::get(fn () => $this->payment_proof_path ? Storage::disk('supabase')->url($this->payment_proof_path) : null);
     }
 
     public function hasPaymentProof(): bool

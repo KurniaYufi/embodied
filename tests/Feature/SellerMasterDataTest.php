@@ -4,6 +4,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Size;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -65,6 +67,52 @@ test('seller can create a product with sizes and a category', function () {
     expect($product)->not->toBeNull();
     expect($product->category_id)->toBe($category->id);
     expect($product->sizes->pluck('label')->sort()->values()->all())->toBe(['M', 'S']);
+});
+
+test('seller can upload, replace and remove a product photo', function () {
+    Storage::fake('supabase');
+
+    $category = Category::factory()->create();
+    $firstPhoto = UploadedFile::fake()->image('photo.jpg');
+
+    Livewire::test('pages::seller.products')
+        ->set('name', 'Photographed Product')
+        ->set('categoryId', $category->id)
+        ->set('description', 'Has a real photo.')
+        ->set('price', 300000)
+        ->set('photo', $firstPhoto)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $product = Product::where('name', 'Photographed Product')->first();
+
+    expect($product->image)->not->toBeNull();
+    Storage::disk('supabase')->assertExists($product->image);
+    $firstImagePath = $product->image;
+
+    $secondPhoto = UploadedFile::fake()->image('photo-2.jpg');
+
+    Livewire::test('pages::seller.products')
+        ->call('edit', $product->id)
+        ->set('photo', $secondPhoto)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $product->refresh();
+
+    expect($product->image)->not->toBe($firstImagePath);
+    Storage::disk('supabase')->assertExists($product->image);
+    Storage::disk('supabase')->assertMissing($firstImagePath);
+
+    Livewire::test('pages::seller.products')
+        ->call('edit', $product->id)
+        ->set('removePhoto', true)
+        ->call('save')
+        ->assertHasNoErrors();
+
+    $product->refresh();
+
+    expect($product->image)->toBeNull();
 });
 
 test('seller can delete a product', function () {

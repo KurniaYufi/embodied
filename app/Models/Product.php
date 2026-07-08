@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -66,6 +67,6 @@ class Product extends Model
 
     protected function imageUrl(): Attribute
     {
-        return Attribute::get(fn () => $this->image ? asset('storage/'.$this->image) : null);
+        return Attribute::get(fn () => $this->image ? Storage::disk('supabase')->url($this->image) : null);
     }
 }

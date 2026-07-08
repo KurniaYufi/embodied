@@ -31,10 +31,10 @@ class OrderController extends Controller
         ]);
 
         if ($order->payment_proof_path) {
-            Storage::disk('public')->delete($order->payment_proof_path);
+            Storage::disk('supabase')->delete($order->payment_proof_path);
         }
 
-        $path = $request->file('proof')->store('payment-proofs', 'public');
+        $path = $request->file('proof')->store('payment-proofs', 'supabase');
 
         $order->update([
             'payment_proof_path' => $path,

@@ -140,11 +140,11 @@ new #[Title('Products')] class extends Component {
 
         if ($this->photo) {
             if ($imagePath) {
-                Storage::disk('public')->delete($imagePath);
+                Storage::disk('supabase')->delete($imagePath);
             }
-            $imagePath = $this->photo->store('products', 'public');
+            $imagePath = $this->photo->store('products', 'supabase');
         } elseif ($this->removePhoto && $imagePath) {
-            Storage::disk('public')->delete($imagePath);
+            Storage::disk('supabase')->delete($imagePath);
             $imagePath = null;
         }
 
@@ -178,7 +178,7 @@ new #[Title('Products')] class extends Component {
         $product = Product::findOrFail($id);
 
         if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+            Storage::disk('supabase')->delete($product->image);
         }
 
         $product->delete();
@@ -299,7 +299,7 @@ new #[Title('Products')] class extends Component {
                     <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="mt-3 h-24 w-24 border border-neutral-200 object-cover">
                 @elseif ($currentImage && ! $removePhoto)
                     <div class="mt-3 flex items-center gap-3">
-                        <img src="{{ asset('storage/'.$currentImage) }}" alt="Current photo" class="h-24 w-24 border border-neutral-200 object-cover">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('supabase')->url($currentImage) }}" alt="Current photo" class="h-24 w-24 border border-neutral-200 object-cover">
                         <flux:checkbox wire:model="removePhoto" label="Remove photo" />
                     </div>
                 @endif

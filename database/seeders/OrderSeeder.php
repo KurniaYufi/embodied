@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Product;
+use App\Support\PlaceholderImageGenerator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,6 +22,8 @@ class OrderSeeder extends Seeder
             return;
         }
 
+        $sampleProofPath = PlaceholderImageGenerator::generateSampleReceipt();
+
         $orders = [
             [
                 'customer_name' => 'Siti Rahayu',
@@ -34,7 +37,7 @@ class OrderSeeder extends Seeder
                 'customer_phone' => '081298765432',
                 'shipping_address' => "Jl. Merdeka No. 45\nBandung, Jawa Barat 40115",
                 'status' => OrderStatus::AwaitingConfirmation,
-                'payment_proof_path' => 'payment-proofs/sample.jpg',
+                'payment_proof_path' => $sampleProofPath,
                 'items' => [['product' => 1, 'quantity' => 2], ['product' => 4, 'quantity' => 1]],
             ],
             [
@@ -42,7 +45,7 @@ class OrderSeeder extends Seeder
                 'customer_phone' => '081355512345',
                 'shipping_address' => "Jl. Pahlawan No. 8\nSurabaya, Jawa Timur 60174",
                 'status' => OrderStatus::Paid,
-                'payment_proof_path' => 'payment-proofs/sample.jpg',
+                'payment_proof_path' => $sampleProofPath,
                 'items' => [['product' => 3, 'quantity' => 1]],
             ],
             [
@@ -50,7 +53,7 @@ class OrderSeeder extends Seeder
                 'customer_phone' => '087811122233',
                 'shipping_address' => "Jl. Diponegoro No. 21\nYogyakarta, DIY 55223",
                 'status' => OrderStatus::Completed,
-                'payment_proof_path' => 'payment-proofs/sample.jpg',
+                'payment_proof_path' => $sampleProofPath,
                 'items' => [['product' => 2, 'quantity' => 1], ['product' => 5, 'quantity' => 1]],
             ],
         ];
