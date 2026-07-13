@@ -1,4 +1,4 @@
-<x-layouts::auth :title="__('Log in')">
+<x-layouts::auth.split :title="__('Log in')">
     <div class="flex flex-col gap-6">
         <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
 
@@ -50,5 +50,11 @@
             </div>
         </form>
 
+        @if (Route::has('register'))
+            <p class="text-center text-sm text-neutral-500 dark:text-neutral-400">
+                {{ __("Don't have an account?") }}
+                <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
+            </p>
+        @endif
     </div>
-</x-layouts::auth>
+</x-layouts::auth.split>

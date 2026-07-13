@@ -3,14 +3,23 @@
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-test('checkout page loads', function () {
+test('guests are redirected to login when visiting checkout', function () {
+    $this->get(route('checkout'))->assertRedirect(route('login'));
+});
+
+test('checkout page loads for authenticated users', function () {
+    $this->actingAs(User::factory()->create());
+
     $this->get(route('checkout'))->assertOk();
 });
 
 test('customer can place an order from cart items', function () {
+    $this->actingAs(User::factory()->create());
+
     $items = json_encode([
         ['name' => 'Fluid Trousers', 'priceValue' => 449000, 'gradient' => 'from-stone-200 to-stone-400', 'size' => 'M', 'qty' => 2],
         ['name' => 'Boxy Tee', 'priceValue' => 229000, 'gradient' => 'from-neutral-300 to-neutral-500', 'size' => 'L', 'qty' => 1],
@@ -35,6 +44,8 @@ test('customer can place an order from cart items', function () {
 });
 
 test('checkout fails with empty cart', function () {
+    $this->actingAs(User::factory()->create());
+
     $response = $this->post(route('checkout.store'), [
         'customer_name' => 'Jane Doe',
         'customer_phone' => '081234567890',

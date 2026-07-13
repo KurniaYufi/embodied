@@ -1,7 +1,47 @@
 {
-  "_fonts-DkuEHybc.css": {
-    "file": "assets/fonts-DkuEHybc.css",
-    "src": "_fonts-DkuEHybc.css"
+  "_cormorant-garamond-500-normal-BZGLGj12.woff2": {
+    "file": "assets/cormorant-garamond-500-normal-BZGLGj12.woff2",
+    "src": "_cormorant-garamond-500-normal-BZGLGj12.woff2"
+  },
+  "_cormorant-garamond-500-normal-BsRWmXhO.woff2": {
+    "file": "assets/cormorant-garamond-500-normal-BsRWmXhO.woff2",
+    "src": "_cormorant-garamond-500-normal-BsRWmXhO.woff2"
+  },
+  "_cormorant-garamond-500-normal-CH1kM7og.woff2": {
+    "file": "assets/cormorant-garamond-500-normal-CH1kM7og.woff2",
+    "src": "_cormorant-garamond-500-normal-CH1kM7og.woff2"
+  },
+  "_cormorant-garamond-500-normal-CyAY5ZLS.woff2": {
+    "file": "assets/cormorant-garamond-500-normal-CyAY5ZLS.woff2",
+    "src": "_cormorant-garamond-500-normal-CyAY5ZLS.woff2"
+  },
+  "_cormorant-garamond-500-normal-DYeaGGzO.woff": {
+    "file": "assets/cormorant-garamond-500-normal-DYeaGGzO.woff",
+    "src": "_cormorant-garamond-500-normal-DYeaGGzO.woff"
+  },
+  "_cormorant-garamond-500-normal-DkJXBcIH.woff": {
+    "file": "assets/cormorant-garamond-500-normal-DkJXBcIH.woff",
+    "src": "_cormorant-garamond-500-normal-DkJXBcIH.woff"
+  },
+  "_cormorant-garamond-500-normal-DqXqCC0q.woff": {
+    "file": "assets/cormorant-garamond-500-normal-DqXqCC0q.woff",
+    "src": "_cormorant-garamond-500-normal-DqXqCC0q.woff"
+  },
+  "_cormorant-garamond-500-normal-Yta7XZ9C.woff2": {
+    "file": "assets/cormorant-garamond-500-normal-Yta7XZ9C.woff2",
+    "src": "_cormorant-garamond-500-normal-Yta7XZ9C.woff2"
+  },
+  "_cormorant-garamond-500-normal-lsPpqi9g.woff": {
+    "file": "assets/cormorant-garamond-500-normal-lsPpqi9g.woff",
+    "src": "_cormorant-garamond-500-normal-lsPpqi9g.woff"
+  },
+  "_cormorant-garamond-500-normal-zIXX3Q-H.woff": {
+    "file": "assets/cormorant-garamond-500-normal-zIXX3Q-H.woff",
+    "src": "_cormorant-garamond-500-normal-zIXX3Q-H.woff"
+  },
+  "_fonts-E5LjJzPr.css": {
+    "file": "assets/fonts-E5LjJzPr.css",
+    "src": "_fonts-E5LjJzPr.css"
   },
   "_instrument-sans-400-normal-D1W7dsQl.woff": {
     "file": "assets/instrument-sans-400-normal-D1W7dsQl.woff",
@@ -52,7 +92,7 @@
     "src": "_instrument-sans-600-normal-DMks36a2.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-C-MHJAyD.css",
+    "file": "assets/app-3bxD8GXG.css",
     "name": "app",
     "names": [
       "app.css"
@@ -61,7 +101,7 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BmlJQqPJ.js",
+    "file": "assets/app-DsUxtzMp.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

@@ -11,6 +11,7 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-serif: 'Times New Roman', ui-serif, Georgia, Cambria, serif;
+    --font-marquee: 'Cormorant Garamond', ui-serif, Georgia, Cambria, serif;
 
     /* Warm off-white used in place of pure white across the storefront and dashboard. */
     --color-cream: #f5f3ef;
@@ -48,6 +49,16 @@
     ::backdrop,
     ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
+    }
+
+    button:not(:disabled),
+    [type='button']:not(:disabled),
+    [type='submit']:not(:disabled),
+    [type='reset']:not(:disabled),
+    [role='button']:not([aria-disabled='true']),
+    select,
+    summary {
+        cursor: pointer;
     }
 }
 

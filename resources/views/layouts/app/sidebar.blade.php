@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        {{-- This admin area is styled light-only to match the storefront's design system, so
-             it never adopted dark: variants. @fluxAppearance below re-applies dark mode on
-             every Livewire navigation when the visitor's OS prefers it, which would make our
-             uncolored text invisible — pin Flux's own stored preference to "light" (the same
-             mechanism the real Appearance settings page uses) so it stays light everywhere. --}}
-        <script>window.localStorage.setItem('flux.appearance', 'light')</script>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-cream">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-neutral-200 bg-cream">
+    <body class="min-h-screen bg-cream dark:bg-neutral-900">
+        <flux:sidebar sticky collapsible="mobile" class="border-e border-neutral-200 bg-cream dark:border-neutral-800 dark:bg-neutral-900">
             <flux:sidebar.header>
-                <a href="{{ route('dashboard') }}" wire:navigate class="flex h-10 min-w-0 flex-1 items-center px-2 text-xs font-medium tracking-[0.25em] text-neutral-900 uppercase in-data-flux-sidebar-collapsed-desktop:hidden">
+                <a href="{{ route('dashboard') }}" wire:navigate class="flex h-10 min-w-0 flex-1 items-center px-2 text-xs font-medium tracking-[0.25em] text-neutral-900 uppercase in-data-flux-sidebar-collapsed-desktop:hidden dark:text-neutral-100">
                     Embodied
                 </a>
                 <flux:sidebar.collapse class="lg:hidden" />
@@ -34,7 +28,7 @@
                     </flux:sidebar.group>
 
                     <flux:sidebar.item icon="banknotes" :href="route('seller.transactions')" :current="request()->routeIs('seller.transactions')" wire:navigate>
-                        {{ __('Transaksi') }}
+                        {{ __('Transactions') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
@@ -45,7 +39,7 @@
         </flux:sidebar>
 
         <!-- Mobile User Menu -->
-        <flux:header class="border-b border-neutral-200 bg-cream lg:hidden">
+        <flux:header class="border-b border-neutral-200 bg-cream lg:hidden dark:border-neutral-800 dark:bg-neutral-900">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <flux:spacer />

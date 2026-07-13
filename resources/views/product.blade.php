@@ -33,7 +33,12 @@
 
             <p class="mb-6 text-xl">{{ $product->formatted_price }}</p>
 
-            <p class="mb-8 text-sm leading-relaxed text-neutral-600">{{ $product->description }}</p>
+            <div class="mb-8">
+                <p data-description class="line-clamp-3 text-sm leading-relaxed text-neutral-600">{{ $product->description }}</p>
+                <button type="button" data-description-toggle class="mt-2 hidden text-xs tracking-[0.15em] text-neutral-900 uppercase underline underline-offset-4">
+                    See more
+                </button>
+            </div>
 
             @php
                 $availableSizeLabels = $product->sizes->pluck('label');

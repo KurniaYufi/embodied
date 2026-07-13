@@ -1,40 +1,35 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
-        <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
-            <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
-                <div class="absolute inset-0 bg-neutral-900"></div>
-                <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
-                    <span class="flex h-10 w-10 items-center justify-center rounded-md">
-                        <x-app-logo-icon class="me-2 h-7 fill-current text-white" />
-                    </span>
-                    {{ config('app.name', 'Laravel') }}
+    <body class="h-dvh overflow-hidden bg-cream antialiased dark:bg-neutral-900">
+        <div class="grid h-dvh grid-cols-1 lg:grid-cols-2">
+            {{-- Form side --}}
+            <div class="flex flex-col px-10 py-8 sm:px-6">
+                <a href="{{ route('home') }}" class="flex items-center gap-2 text-xs font-medium tracking-[0.25em] text-neutral-900 uppercase dark:text-neutral-100" wire:navigate>
+                    Embodied
                 </a>
 
-                @php
-                    [$message, $author] = str(Illuminate\Foundation\Inspiring::quotes()->random())->explode('-');
-                @endphp
-
-                <div class="relative z-20 mt-auto">
-                    <blockquote class="space-y-2">
-                        <flux:heading size="lg">&ldquo;{{ trim($message) }}&rdquo;</flux:heading>
-                        <footer><flux:heading>{{ trim($author) }}</flux:heading></footer>
-                    </blockquote>
+                <div class="flex flex-1 items-center justify-center overflow-y-auto py-8">
+                    <div class="mx-auto w-full max-w-sm">
+                        {{ $slot }}
+                    </div>
                 </div>
             </div>
-            <div class="w-full lg:p-8">
-                <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-                    <a href="{{ route('home') }}" class="z-20 flex flex-col items-center gap-2 font-medium lg:hidden" wire:navigate>
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md">
-                            <x-app-logo-icon class="size-9 fill-current text-black dark:text-white" />
-                        </span>
 
-                        <span class="sr-only">{{ config('app.name', 'Laravel') }}</span>
-                    </a>
-                    {{ $slot }}
+            {{-- Image side --}}
+            <div class="relative hidden overflow-hidden bg-neutral-900 lg:block">
+                <img
+                    src="{{ \Illuminate\Support\Facades\Storage::disk('supabase')->url('site/about.jpg') }}"
+                    alt=""
+                    class="h-full w-full object-cover object-top"
+                >
+                <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-black/40"></div>
+
+                <div class="absolute inset-x-0 bottom-0 p-10 text-white">
+                    <p class="mb-2 text-xs tracking-[0.3em] text-white/60 uppercase">Clothing &middot; Indonesia</p>
+                    <p class="font-serif text-3xl">Wear what you are.</p>
                 </div>
             </div>
         </div>

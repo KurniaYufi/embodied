@@ -31,7 +31,9 @@
                         name="search"
                         value="{{ $search }}"
                         placeholder="Search"
-                        class="w-full border border-neutral-300 bg-transparent py-2 pr-3 pl-9 text-sm placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2"
+                        data-live-search="400"
+                        autocomplete="off"
+                        class="w-full border border-neutral-300 bg-transparent py-2 pr-3 pl-9 text-sm placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none focus-visible:ring-offset-2"
                     >
                 </div>
 
@@ -82,25 +84,25 @@
         </aside>
 
         {{-- Product grid --}}
-        <div class="flex-1">
+        <div id="collection-results" class="flex-1 transition-opacity">
             <div class="mb-6 flex flex-wrap items-center justify-between gap-3 text-sm text-neutral-500">
                 <span>{{ $products->count() }} {{ $products->count() === 1 ? 'item' : 'items' }}</span>
 
-                <label class="flex items-center gap-2">
-                    <span>sort :</span>
-                    <select
+                <div class="flex items-center gap-3 text-xs tracking-[0.15em] text-neutral-500 uppercase">
+                    <span>Sort</span>
+                    <x-dropdown-select
                         name="sort"
                         form="collection-filters"
-                        onchange="this.form.submit()"
+                        :selected="$sortFilter"
+                        :options="[
+                            'recent' => 'Recent',
+                            'price-asc' => 'Price: Low to High',
+                            'price-desc' => 'Price: High to Low',
+                            'name-asc' => 'Name: A–Z',
+                        ]"
                         aria-label="Sort products"
-                        class="border-0 bg-transparent text-neutral-900 underline underline-offset-4 focus:outline-none"
-                    >
-                        <option value="recent" @selected($sortFilter === 'recent')>Recent</option>
-                        <option value="price-asc" @selected($sortFilter === 'price-asc')>Price: Low to High</option>
-                        <option value="price-desc" @selected($sortFilter === 'price-desc')>Price: High to Low</option>
-                        <option value="name-asc" @selected($sortFilter === 'name-asc')>Name: A–Z</option>
-                    </select>
-                </label>
+                    />
+                </div>
             </div>
 
             @if ($products->isEmpty())
@@ -114,7 +116,6 @@
                         <x-shop-product-card
                             :name="$product->name"
                             :price="$product->formatted_price"
-                            :price-value="$product->price"
                             :stock="$product->stock"
                             :badge="$product->badge"
                             :gradient="$product->gradient"

@@ -26,8 +26,8 @@ new class extends Component {
 }; ?>
 
 <flux:modal name="confirm-user-deletion" :show="$errors->isNotEmpty()" focusable class="max-w-lg">
-    <form method="POST" wire:submit="deleteUser" class="space-y-6">
-        <div>
+    <form method="POST" wire:submit="deleteUser" class="flex max-h-[80vh] flex-col">
+        <div class="pe-8">
             <flux:heading size="lg">{{ __('Are you sure you want to delete your account?') }}</flux:heading>
 
             <flux:subheading>
@@ -35,9 +35,11 @@ new class extends Component {
             </flux:subheading>
         </div>
 
-        <flux:input wire:model="password" :label="__('Password')" type="password" viewable />
+        <div class="mt-6 min-h-0 flex-1 overflow-y-auto ps-1 pe-1 pb-1">
+            <flux:input wire:model="password" :label="__('Password')" type="password" viewable />
+        </div>
 
-        <div class="flex justify-end space-x-2 rtl:space-x-reverse">
+        <div class="flex shrink-0 justify-end gap-2 border-t border-neutral-200 pt-6 dark:border-neutral-800">
             <flux:modal.close>
                 <flux:button variant="filled">{{ __('Cancel') }}</flux:button>
             </flux:modal.close>

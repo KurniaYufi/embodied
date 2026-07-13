@@ -9,8 +9,23 @@ test('login screen can be rendered', function () {
     $response->assertOk();
 });
 
-test('users can authenticate using the login screen', function () {
+test('customers are redirected home after logging in', function () {
     $user = User::factory()->create();
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('home', absolute: false));
+
+    $this->assertAuthenticated();
+});
+
+test('admins are redirected to the dashboard after logging in', function () {
+    $user = User::factory()->admin()->create();
 
     $response = $this->post(route('login.store'), [
         'email' => $user->email,

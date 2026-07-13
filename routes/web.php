@@ -29,15 +29,17 @@ Route::get('/product/{product}', function (Product $product) {
     ]);
 })->name('product.show');
 
-Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
-Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+});
 
 Route::get('/orders/{token}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/orders/{token}/payment-proof', [OrderController::class, 'uploadProof'])->name('orders.payment-proof');
 
 Route::view('/help', 'help')->name('help');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('dashboard', function () {
         return view('dashboard', [
             'productCount' => Product::count(),

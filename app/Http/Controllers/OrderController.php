@@ -15,12 +15,16 @@ class OrderController extends Controller
     {
         $order = Order::with('items')->where('access_token', $token)->firstOrFail();
 
+        $order->cancelDueToExpiredPayment();
+
         return view('order-status', ['order' => $order]);
     }
 
     public function uploadProof(Request $request, string $token): RedirectResponse
     {
         $order = Order::where('access_token', $token)->firstOrFail();
+
+        $order->cancelDueToExpiredPayment();
 
         if (! in_array($order->status, [OrderStatus::PendingPayment, OrderStatus::AwaitingConfirmation], true)) {
             return back()->withErrors(['proof' => 'This order can no longer accept a new payment proof.']);

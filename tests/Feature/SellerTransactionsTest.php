@@ -6,7 +6,7 @@ use App\Models\User;
 use Livewire\Livewire;
 
 beforeEach(function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(User::factory()->admin()->create());
 });
 
 test('seller can view the transactions list', function () {

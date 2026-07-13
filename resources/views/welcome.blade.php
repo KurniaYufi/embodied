@@ -7,7 +7,7 @@
 
         <header class="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 text-white sm:px-10">
             <a href="{{ route('home') }}" class="text-xs font-medium tracking-[0.25em] uppercase">Embodied</a>
-            <nav class="hidden gap-10 text-[11px] tracking-[0.2em] uppercase md:flex">
+            <nav class="absolute left-1/2 hidden -translate-x-1/2 gap-10 text-[11px] tracking-[0.2em] uppercase md:flex">
                 <a href="{{ route('collection') }}" class="hover:text-white/70">Collection</a>
                 <a href="#studio" class="hover:text-white/70">Studio</a>
                 <a href="#lookbook" class="hover:text-white/70">Lookbook</a>
@@ -37,7 +37,7 @@
     </section>
 
     {{-- Ticker --}}
-    <x-marquee>wear what you are &bull; dressed in intention &bull; the body, the cloth, the self &bull; quietly worn, deeply felt &bull; new arrival</x-marquee>
+    <x-marquee :items="['wear what you are', 'dressed in intention', 'the body, the cloth, the self', 'quietly worn, deeply felt', 'new arrival']" />
 
     {{-- Collection --}}
     <section id="collection" class="mx-auto max-w-7xl px-6 py-24 sm:px-10">
@@ -93,10 +93,10 @@
     </section>
 
     {{-- Ticker --}}
-    <x-marquee>embodied &bull; clothing &middot; indonesia &bull; wear what you are &bull; natural fibres &bull; slow fashion</x-marquee>
+    <x-marquee :items="['embodied', 'clothing · indonesia', 'wear what you are', 'natural fibres', 'slow fashion']" />
 
     {{-- Lookbook --}}
-    <section id="lookbook" class="bg-stone-200 px-6 py-24 sm:px-10">
+    <section id="lookbook" class="px-6 py-24 sm:px-10">
         <div class="mx-auto max-w-7xl text-center">
             <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">Collection 01</p>
             <h2 class="font-serif text-4xl">The Lookbook</h2>

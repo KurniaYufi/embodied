@@ -90,7 +90,7 @@ new #[Title('Categories')] class extends Component {
 <div class="flex flex-col gap-6">
     <div class="flex items-center justify-between">
         <div>
-            <p class="mb-1 text-xs tracking-[0.3em] text-neutral-500 uppercase">Master Data</p>
+            <p class="mb-1 text-xs tracking-[0.3em] text-neutral-500 uppercase dark:text-neutral-400">Master Data</p>
             <flux:heading size="xl">Categories</flux:heading>
         </div>
 
@@ -103,7 +103,7 @@ new #[Title('Categories')] class extends Component {
         <flux:table.columns>
             <flux:table.column>Name</flux:table.column>
             <flux:table.column>Products</flux:table.column>
-            <flux:table.column></flux:table.column>
+            <flux:table.column align="center">Action</flux:table.column>
         </flux:table.columns>
 
         <flux:table.rows>
@@ -112,15 +112,15 @@ new #[Title('Categories')] class extends Component {
                     <flux:table.cell>{{ $category->name }}</flux:table.cell>
                     <flux:table.cell>{{ $category->products_count }}</flux:table.cell>
                     <flux:table.cell>
-                        <div class="flex justify-end gap-2">
-                            <flux:button size="sm" variant="ghost" wire:click="edit({{ $category->id }})">Edit</flux:button>
-                            <flux:button size="sm" variant="ghost" wire:click="delete({{ $category->id }})" wire:confirm="Delete this category? Products in it will become uncategorized.">Delete</flux:button>
+                        <div class="flex justify-center gap-2">
+                            <flux:button size="sm" variant="ghost" icon="pencil" tooltip="Edit" aria-label="Edit" wire:click="edit({{ $category->id }})" />
+                            <flux:button size="sm" variant="ghost" icon="trash" tooltip="Delete" aria-label="Delete" wire:click="delete({{ $category->id }})" wire:confirm="Delete this category? Products in it will become uncategorized." />
                         </div>
                     </flux:table.cell>
                 </flux:table.row>
             @empty
                 <flux:table.row>
-                    <flux:table.cell colspan="3" class="text-center text-neutral-500">No categories yet.</flux:table.cell>
+                    <flux:table.cell colspan="3" class="text-center text-neutral-500 dark:text-neutral-400">No categories yet.</flux:table.cell>
                 </flux:table.row>
             @endforelse
         </flux:table.rows>
@@ -129,12 +129,16 @@ new #[Title('Categories')] class extends Component {
     {{ $this->categories->links() }}
 
     <flux:modal name="category-form" class="max-w-md">
-        <form wire:submit="save" class="space-y-6">
-            <flux:heading size="lg">{{ $editingId ? 'Edit Category' : 'New Category' }}</flux:heading>
+        <form wire:submit="save" class="flex max-h-[80vh] flex-col">
+            <div class="pe-8">
+                <flux:heading size="lg">{{ $editingId ? 'Edit Category' : 'New Category' }}</flux:heading>
+            </div>
 
-            <flux:input wire:model="name" label="Name" placeholder="e.g. Women" autofocus />
+            <div class="mt-6 min-h-0 flex-1 space-y-6 overflow-y-auto ps-1 pe-1 pb-1">
+                <flux:input wire:model="name" label="Name" placeholder="e.g. Women" autofocus />
+            </div>
 
-            <div class="flex justify-end gap-2">
+            <div class="flex shrink-0 justify-end gap-2 border-t border-neutral-200 pt-6 dark:border-neutral-800">
                 <flux:modal.close>
                     <flux:button variant="filled">Cancel</flux:button>
                 </flux:modal.close>

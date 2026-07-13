@@ -15,6 +15,8 @@ class Order extends Model
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
 
+    public const PAYMENT_TIMEOUT_MINUTES = 10;
+
     protected $fillable = [
         'number',
         'access_token',
@@ -59,5 +61,22 @@ class Order extends Model
     public function hasPaymentProof(): bool
     {
         return filled($this->payment_proof_path);
+    }
+
+    protected function paymentDeadline(): Attribute
+    {
+        return Attribute::get(fn () => $this->created_at->addMinutes(self::PAYMENT_TIMEOUT_MINUTES));
+    }
+
+    public function isPaymentExpired(): bool
+    {
+        return $this->status === OrderStatus::PendingPayment && now()->greaterThan($this->payment_deadline);
+    }
+
+    public function cancelDueToExpiredPayment(): void
+    {
+        if ($this->isPaymentExpired()) {
+            $this->update(['status' => OrderStatus::Cancelled]);
+        }
     }
 }

@@ -2,12 +2,17 @@
 
 namespace App\Providers;
 
+use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Http\Responses\LoginResponse;
+use App\Http\Responses\RegisterResponse;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -17,7 +22,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
+        $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
     }
 
     /**
@@ -35,6 +41,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureActions(): void
     {
+        Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
     }
 
@@ -44,6 +51,7 @@ class FortifyServiceProvider extends ServiceProvider
     private function configureViews(): void
     {
         Fortify::loginView(fn () => view('pages::auth.login'));
+        Fortify::registerView(fn () => view('pages::auth.register'));
         Fortify::confirmPasswordView(fn () => view('pages::auth.confirm-password'));
         Fortify::resetPasswordView(fn () => view('pages::auth.reset-password'));
         Fortify::requestPasswordResetLinkView(fn () => view('pages::auth.forgot-password'));

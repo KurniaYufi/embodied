@@ -27,6 +27,22 @@
 
     <div class="mx-auto max-w-3xl px-6 py-12 sm:px-10">
 
+        @if ($order->status === OrderStatus::PendingPayment)
+            <div
+                data-payment-countdown
+                data-deadline="{{ $order->payment_deadline->toIso8601String() }}"
+                data-state="normal"
+                class="group mb-8 flex flex-wrap items-center gap-4 border-2 border-amber-500 bg-amber-50 px-6 py-4 text-amber-900 transition-colors data-[state=critical]:border-red-600 data-[state=critical]:bg-red-50 data-[state=critical]:text-red-900"
+            >
+                <flux:icon.clock class="h-8 w-8 shrink-0" />
+                <div>
+                    <p class="text-xs font-medium tracking-widest uppercase">Complete Payment Within</p>
+                    <p data-payment-countdown-value class="font-serif text-3xl tabular-nums group-data-[state=critical]:animate-pulse">10:00</p>
+                </div>
+                <p class="text-xs opacity-80 sm:ml-auto sm:max-w-2xs">This order will be automatically cancelled if payment isn't completed in time.</p>
+            </div>
+        @endif
+
         @if (session('status'))
             <div class="mb-8 border border-neutral-900 bg-neutral-900 px-4 py-3 text-sm text-white">
                 {{ session('status') }}
