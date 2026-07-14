@@ -4,6 +4,7 @@ use App\Enums\OrderStatus;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
@@ -32,6 +33,8 @@ Route::get('/product/{product}', function (Product $product) {
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/account/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::post('/orders/{token}/reviews', [ReviewController::class, 'store'])->name('orders.reviews.store');
 });
 
 Route::get('/orders/{token}', [OrderController::class, 'show'])->name('orders.show');

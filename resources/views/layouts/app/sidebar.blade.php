@@ -30,6 +30,10 @@
                     <flux:sidebar.item icon="banknotes" :href="route('seller.transactions')" :current="request()->routeIs('seller.transactions')" wire:navigate>
                         {{ __('Transactions') }}
                     </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="credit-card" :href="route('seller.payment-methods')" :current="request()->routeIs('seller.payment-methods')" wire:navigate>
+                        {{ __('Payment Methods') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
@@ -46,6 +47,21 @@ class Product extends Model
     public function sizes(): BelongsToMany
     {
         return $this->belongsToMany(Size::class)->orderBy('sort_order');
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    protected function averageRating(): Attribute
+    {
+        return Attribute::get(fn () => round((float) ($this->reviews_avg_rating ?? $this->reviews()->avg('rating') ?? 0), 1));
+    }
+
+    protected function reviewsCount(): Attribute
+    {
+        return Attribute::get(fn () => $this->reviews_count ?? $this->reviews()->count());
     }
 
     protected function formattedPrice(): Attribute

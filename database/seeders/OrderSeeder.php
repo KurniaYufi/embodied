@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Support\PlaceholderImageGenerator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class OrderSeeder extends Seeder
 {
@@ -68,6 +69,8 @@ class OrderSeeder extends Seeder
 
             $order = Order::create([
                 ...$data,
+                'number' => 'ORD-'.now()->format('Ymd').'-'.strtoupper(Str::random(4)),
+                'access_token' => Str::random(40),
                 'subtotal' => $subtotal,
                 'payment_proof_uploaded_at' => isset($data['payment_proof_path']) ? now() : null,
             ]);

@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -18,6 +19,7 @@ class Order extends Model
     public const PAYMENT_TIMEOUT_MINUTES = 10;
 
     protected $fillable = [
+        'user_id',
         'number',
         'access_token',
         'customer_name',
@@ -26,6 +28,7 @@ class Order extends Model
         'notes',
         'subtotal',
         'status',
+        'payment_method_id',
         'payment_proof_path',
         'payment_proof_uploaded_at',
     ];
@@ -46,6 +49,16 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     protected function formattedSubtotal(): Attribute

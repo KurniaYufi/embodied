@@ -13,16 +13,31 @@
                 <a href="#lookbook" class="hover:text-white/70">Lookbook</a>
                 <a href="#about" class="hover:text-white/70">About</a>
             </nav>
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4 sm:gap-6">
                 <x-cart-trigger class="relative text-white" />
                 <x-auth-nav-link />
+                <button type="button" data-mobile-nav-toggle aria-label="Open menu" aria-expanded="false" class="md:hidden">
+                    <flux:icon.bars-2 class="h-5 w-5" />
+                </button>
             </div>
         </header>
+
+        <div data-mobile-nav class="fixed inset-0 z-30 hidden bg-neutral-900/98 md:hidden">
+            <button type="button" data-mobile-nav-close aria-label="Close menu" class="absolute top-6 right-6 text-white sm:right-10">
+                <flux:icon.x-mark class="h-6 w-6" />
+            </button>
+            <nav class="flex h-full flex-col items-center justify-center gap-8 px-6 text-center">
+                <a href="{{ route('collection') }}" data-mobile-nav-link class="text-lg tracking-[0.2em] text-white uppercase hover:text-white/70">Collection</a>
+                <a href="#studio" data-mobile-nav-link class="text-lg tracking-[0.2em] text-white uppercase hover:text-white/70">Studio</a>
+                <a href="#lookbook" data-mobile-nav-link class="text-lg tracking-[0.2em] text-white uppercase hover:text-white/70">Lookbook</a>
+                <a href="#about" data-mobile-nav-link class="text-lg tracking-[0.2em] text-white uppercase hover:text-white/70">About</a>
+            </nav>
+        </div>
 
         <div class="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
             <p class="mb-4 text-xs tracking-[0.35em] text-white/60 uppercase">Clothing &middot; Indonesia &middot; Est. 2024</p>
             <h1 class="font-serif text-6xl tracking-wide sm:text-7xl md:text-8xl">EMBODIED</h1>
-            <p class="mt-6 text-sm tracking-[0.2em] text-white/70 italic">wear what you are</p>
+            <p class="mt-6 text-lg tracking-[0.2em] text-white/70 italic font-marquee">Wear What You Are</p>
 
             <div class="mt-10 flex flex-col gap-3 sm:flex-row">
                 <a href="#collection" class="border border-white bg-cream px-8 py-3 text-[11px] tracking-[0.2em] text-neutral-900 uppercase hover:bg-cream/90">Shop Collection</a>
@@ -44,7 +59,7 @@
         <div class="mb-10 flex items-end justify-between">
             <div>
                 <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">New Arrival</p>
-                <h2 class="font-serif text-4xl">Collection 01</h2>
+                <h2 class="font-serif text-4xl">Collection</h2>
             </div>
             <a href="{{ route('collection') }}" class="text-xs tracking-[0.2em] text-neutral-600 uppercase underline underline-offset-4 hover:text-neutral-900">View All</a>
         </div>
@@ -98,7 +113,7 @@
     {{-- Lookbook --}}
     <section id="lookbook" class="px-6 py-24 sm:px-10">
         <div class="mx-auto max-w-7xl text-center">
-            <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">Collection 01</p>
+            <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">Collection</p>
             <h2 class="font-serif text-4xl">The Lookbook</h2>
 
             <div class="mt-12 grid grid-cols-1 gap-6 text-left md:grid-cols-3">
@@ -131,7 +146,7 @@
             </div>
 
             <x-footer-links title="Shop" :links="[
-                'Collection 01' => route('collection'),
+                'Collection' => route('collection'),
                 'New Arrivals' => route('collection', ['category' => 'new']),
                 'Bestsellers' => route('collection', ['category' => 'bestseller']),
             ]" />

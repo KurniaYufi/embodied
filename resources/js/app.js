@@ -5,3 +5,7 @@ import './dropdown';
 import './live-search';
 import './description-toggle';
 import './payment-countdown';
+import './payment-method-picker';
+import './mobile-nav';
+import './collection-filters';
+import './star-rating-input';

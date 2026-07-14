@@ -24,8 +24,10 @@
 
         {{-- Details --}}
         <div>
-            <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">{{ $product->category?->name ?? 'Collection 01' }}</p>
+            <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">{{ $product->category?->name ?? 'Collection' }}</p>
             <h2 class="mb-3 font-serif text-3xl sm:text-4xl">{{ $product->name }}</h2>
+
+            <x-star-rating :rating="$product->average_rating" :count="$product->reviews_count" size="h-4 w-4" class="mb-3" />
 
             <p class="mb-4 text-xs text-neutral-500">
                 {{ $product->stock > 0 ? "{$product->stock} in stock" : 'Out of stock' }}
@@ -70,6 +72,7 @@
                     type="button"
                     class="w-full border border-neutral-900 bg-neutral-900 py-3 text-[11px] tracking-[0.2em] text-white uppercase hover:bg-black"
                     data-add-to-cart
+                    data-product-id="{{ $product->id }}"
                     data-name="{{ $product->name }}"
                     data-price-value="{{ $product->price }}"
                     data-gradient="{{ $product->gradient }}"

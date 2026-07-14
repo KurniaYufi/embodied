@@ -13,14 +13,14 @@ function writeCart(items) {
     document.dispatchEvent(new CustomEvent('cart:updated'));
 }
 
-function addToCart({ name, priceValue, gradient, image, size }) {
+function addToCart({ id, name, priceValue, gradient, image, size }) {
     const items = readCart();
     const existing = items.find((item) => item.name === name && item.size === size);
 
     if (existing) {
         existing.qty += 1;
     } else {
-        items.push({ name, priceValue, gradient, image: image || null, size, qty: 1 });
+        items.push({ id: id ?? null, name, priceValue, gradient, image: image || null, size, qty: 1 });
     }
 
     writeCart(items);
@@ -133,6 +133,7 @@ document.addEventListener('click', (event) => {
         const selectedSize = addButton.closest('[data-product-form]')?.querySelector('input[name="size"]:checked');
 
         addToCart({
+            id: addButton.dataset.productId ? Number(addButton.dataset.productId) : null,
             name: addButton.dataset.name,
             priceValue: Number(addButton.dataset.priceValue),
             gradient: addButton.dataset.gradient,

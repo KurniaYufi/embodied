@@ -2,6 +2,7 @@
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -43,6 +44,46 @@ test('customer can place an order from cart items', function () {
     $response->assertRedirect(route('orders.show', $order->access_token));
 });
 
+test('order items are linked back to their product by id', function () {
+    $this->actingAs(User::factory()->create());
+
+    $product = Product::factory()->create();
+
+    $items = json_encode([
+        ['id' => $product->id, 'name' => $product->name, 'priceValue' => $product->price, 'gradient' => $product->gradient, 'size' => 'M', 'qty' => 1],
+    ]);
+
+    $this->post(route('checkout.store'), [
+        'customer_name' => 'Jane Doe',
+        'customer_phone' => '081234567890',
+        'shipping_address' => 'Jl. Contoh No. 1, Jakarta',
+        'items' => $items,
+    ]);
+
+    $order = Order::first();
+
+    expect($order->items->first()->product_id)->toBe($product->id);
+});
+
+test('a tampered or unknown product id is ignored rather than trusted', function () {
+    $this->actingAs(User::factory()->create());
+
+    $items = json_encode([
+        ['id' => 999999, 'name' => 'Ghost Product', 'priceValue' => 100000, 'gradient' => 'from-neutral-300 to-neutral-500', 'size' => 'M', 'qty' => 1],
+    ]);
+
+    $this->post(route('checkout.store'), [
+        'customer_name' => 'Jane Doe',
+        'customer_phone' => '081234567890',
+        'shipping_address' => 'Jl. Contoh No. 1, Jakarta',
+        'items' => $items,
+    ]);
+
+    $order = Order::first();
+
+    expect($order->items->first()->product_id)->toBeNull();
+});
+
 test('checkout fails with empty cart', function () {
     $this->actingAs(User::factory()->create());
 
@@ -73,9 +114,11 @@ test('customer can upload a payment proof and status moves to awaiting confirmat
     Storage::fake('supabase');
 
     $order = Order::factory()->create(['status' => OrderStatus::PendingPayment]);
+    $paymentMethod = PaymentMethod::factory()->create();
     $file = UploadedFile::fake()->image('proof.jpg');
 
     $response = $this->post(route('orders.payment-proof', $order->access_token), [
+        'payment_method_id' => $paymentMethod->id,
         'proof' => $file,
     ]);
 
@@ -83,18 +126,35 @@ test('customer can upload a payment proof and status moves to awaiting confirmat
 
     expect($order->status)->toBe(OrderStatus::AwaitingConfirmation);
     expect($order->payment_proof_path)->not->toBeNull();
+    expect($order->payment_method_id)->toBe($paymentMethod->id);
     Storage::disk('supabase')->assertExists($order->payment_proof_path);
 
     $response->assertRedirect(route('orders.show', $order->access_token));
+});
+
+test('payment proof upload requires a payment method', function () {
+    Storage::fake('supabase');
+
+    $order = Order::factory()->create(['status' => OrderStatus::PendingPayment]);
+    $file = UploadedFile::fake()->image('proof.jpg');
+
+    $response = $this->post(route('orders.payment-proof', $order->access_token), [
+        'proof' => $file,
+    ]);
+
+    $response->assertSessionHasErrors('payment_method_id');
+    expect($order->fresh()->payment_proof_path)->toBeNull();
 });
 
 test('payment proof cannot be uploaded once order is paid', function () {
     Storage::fake('supabase');
 
     $order = Order::factory()->create(['status' => OrderStatus::Paid]);
+    $paymentMethod = PaymentMethod::factory()->create();
     $file = UploadedFile::fake()->image('proof.jpg');
 
     $response = $this->post(route('orders.payment-proof', $order->access_token), [
+        'payment_method_id' => $paymentMethod->id,
         'proof' => $file,
     ]);
 

@@ -4,8 +4,8 @@ use App\Models\Category;
 use App\Models\Product;
 
 test('search matches product names case-insensitively', function () {
-    Product::factory()->create(['name' => 'Fluid Trousers']);
-    Product::factory()->create(['name' => 'Boxy Tee']);
+    Product::factory()->create(['name' => 'Fluid Trousers', 'stock' => 10]);
+    Product::factory()->create(['name' => 'Boxy Tee', 'stock' => 10]);
 
     $response = $this->get('/collection?search=trousers');
 
@@ -15,8 +15,8 @@ test('search matches product names case-insensitively', function () {
 });
 
 test('category=new filters to new products only', function () {
-    Product::factory()->create(['name' => 'New Jacket', 'is_new' => true]);
-    Product::factory()->create(['name' => 'Old Jacket', 'is_new' => false]);
+    Product::factory()->create(['name' => 'New Jacket', 'is_new' => true, 'stock' => 10]);
+    Product::factory()->create(['name' => 'Old Jacket', 'is_new' => false, 'stock' => 10]);
 
     $response = $this->get('/collection?category=new');
 
@@ -25,8 +25,8 @@ test('category=new filters to new products only', function () {
 });
 
 test('category=bestseller filters to bestseller products only', function () {
-    Product::factory()->create(['name' => 'Star Product', 'is_bestseller' => true]);
-    Product::factory()->create(['name' => 'Regular Product', 'is_bestseller' => false]);
+    Product::factory()->create(['name' => 'Star Product', 'is_bestseller' => true, 'stock' => 10]);
+    Product::factory()->create(['name' => 'Regular Product', 'is_bestseller' => false, 'stock' => 10]);
 
     $response = $this->get('/collection?category=bestseller');
 
@@ -38,8 +38,8 @@ test('category slug filters by real category', function () {
     $women = Category::factory()->create(['slug' => 'women']);
     $men = Category::factory()->create(['slug' => 'men']);
 
-    Product::factory()->create(['name' => 'Womens Dress', 'category_id' => $women->id]);
-    Product::factory()->create(['name' => 'Mens Shirt', 'category_id' => $men->id]);
+    Product::factory()->create(['name' => 'Womens Dress', 'category_id' => $women->id, 'stock' => 10]);
+    Product::factory()->create(['name' => 'Mens Shirt', 'category_id' => $men->id, 'stock' => 10]);
 
     $response = $this->get('/collection?category=women');
 
@@ -48,8 +48,8 @@ test('category slug filters by real category', function () {
 });
 
 test('price filter narrows results by range', function () {
-    Product::factory()->create(['name' => 'Cheap Item', 'price' => 100000]);
-    Product::factory()->create(['name' => 'Expensive Item', 'price' => 2000000]);
+    Product::factory()->create(['name' => 'Cheap Item', 'price' => 100000, 'stock' => 10]);
+    Product::factory()->create(['name' => 'Expensive Item', 'price' => 2000000, 'stock' => 10]);
 
     $response = $this->get('/collection?price=under-300');
 
@@ -73,9 +73,9 @@ test('in-stock filter is on by default and hides out-of-stock products', functio
 });
 
 test('sort orders products by price', function () {
-    Product::factory()->create(['name' => 'Mid Item', 'price' => 500000]);
-    Product::factory()->create(['name' => 'Low Item', 'price' => 100000]);
-    Product::factory()->create(['name' => 'High Item', 'price' => 900000]);
+    Product::factory()->create(['name' => 'Mid Item', 'price' => 500000, 'stock' => 10]);
+    Product::factory()->create(['name' => 'Low Item', 'price' => 100000, 'stock' => 10]);
+    Product::factory()->create(['name' => 'High Item', 'price' => 900000, 'stock' => 10]);
 
     $response = $this->get('/collection?sort=price-asc');
 
@@ -89,7 +89,7 @@ test('sort orders products by price', function () {
 });
 
 test('collection page shows empty state when no products match', function () {
-    Product::factory()->create(['name' => 'Only Product']);
+    Product::factory()->create(['name' => 'Only Product', 'stock' => 10]);
 
     $response = $this->get('/collection?search=nonexistent-product-xyz');
 

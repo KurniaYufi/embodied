@@ -6,6 +6,8 @@
     'gradient' => 'from-neutral-200 to-neutral-300',
     'image' => null,
     'href' => '#',
+    'averageRating' => 0,
+    'reviewsCount' => 0,
 ])
 
 <div class="group relative border border-neutral-200 bg-cream p-3 transition-all hover:shadow-md">
@@ -33,7 +35,8 @@
     </div>
 
     <h3 class="pointer-events-none relative z-10 text-sm font-medium">{{ $name }}</h3>
-    <p class="pointer-events-none relative z-10 mb-2 text-sm text-neutral-500">{{ $price }}</p>
+    <p class="pointer-events-none relative z-10 mb-1 text-sm text-neutral-500">{{ $price }}</p>
+    <x-star-rating :rating="$averageRating" :count="$reviewsCount" class="pointer-events-none relative z-10 mb-2" />
 
     <p class="pointer-events-none relative z-10 text-xs text-neutral-500">
         {{ $stock > 0 ? "Stock: {$stock}" : 'Out of stock' }}

@@ -19,6 +19,8 @@ class CollectionController extends Controller
 
         $products = Product::query()
             ->with('category')
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
             ->when($search !== '', fn ($query) => $query->whereRaw('LOWER(name) LIKE ?', ['%'.mb_strtolower($search).'%']))
             ->when($category === 'new', fn ($query) => $query->where('is_new', true))
             ->when($category === 'bestseller', fn ($query) => $query->where('is_bestseller', true))

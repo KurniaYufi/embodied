@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -32,6 +33,11 @@ class CheckoutController extends Controller
             ]);
         }
 
+        $validProductIds = Product::query()
+            ->whereIn('id', collect($items)->pluck('id')->filter()->all())
+            ->pluck('id')
+            ->all();
+
         $subtotal = 0;
         $lineItems = [];
 
@@ -45,7 +51,10 @@ class CheckoutController extends Controller
 
             $subtotal += $price * $quantity;
 
+            $productId = isset($item['id']) ? (int) $item['id'] : null;
+
             $lineItems[] = [
+                'product_id' => in_array($productId, $validProductIds, true) ? $productId : null,
                 'product_name' => (string) $item['name'],
                 'size' => isset($item['size']) ? (string) $item['size'] : null,
                 'price' => $price,
@@ -62,6 +71,7 @@ class CheckoutController extends Controller
         }
 
         $order = Order::create([
+            'user_id' => $request->user()->id,
             'customer_name' => $validated['customer_name'],
             'customer_phone' => $validated['customer_phone'],
             'shipping_address' => $validated['shipping_address'],
