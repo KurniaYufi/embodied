@@ -14,8 +14,11 @@
                 <a href="#about" class="hover:text-white/70">About</a>
             </nav>
             <div class="flex items-center gap-4 sm:gap-6">
-                <x-cart-trigger class="relative text-white" />
-                <x-auth-nav-link />
+                <div class="hidden items-center gap-4 sm:gap-6 md:flex">
+                    <x-cart-trigger class="relative text-white" />
+                    <x-auth-nav-link />
+                    <x-logout-button class="border border-white/60 px-4 py-1.5 text-[11px] tracking-[0.2em] text-white uppercase hover:bg-white/10" />
+                </div>
                 <button type="button" data-mobile-nav-toggle aria-label="Open menu" aria-expanded="false" class="md:hidden">
                     <flux:icon.bars-2 class="h-5 w-5" />
                 </button>
@@ -31,21 +34,27 @@
                 <a href="#studio" data-mobile-nav-link class="text-lg tracking-[0.2em] text-white uppercase hover:text-white/70">Studio</a>
                 <a href="#lookbook" data-mobile-nav-link class="text-lg tracking-[0.2em] text-white uppercase hover:text-white/70">Lookbook</a>
                 <a href="#about" data-mobile-nav-link class="text-lg tracking-[0.2em] text-white uppercase hover:text-white/70">About</a>
+                <x-logout-button class="border border-white/60 px-6 py-2 text-lg tracking-[0.2em] text-white uppercase hover:bg-white/10" />
+
+                <div class="mt-4 flex items-center gap-8">
+                    <x-cart-trigger data-mobile-nav-link class="relative text-white" />
+                    <x-auth-nav-link />
+                </div>
             </nav>
         </div>
 
         <div class="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
-            <p class="mb-4 text-xs tracking-[0.35em] text-white/60 uppercase">Clothing &middot; Indonesia &middot; Est. 2024</p>
-            <h1 class="font-serif text-6xl tracking-wide sm:text-7xl md:text-8xl">EMBODIED</h1>
-            <p class="mt-6 text-lg tracking-[0.2em] text-white/70 italic font-marquee">Wear What You Are</p>
+            <p data-aos="fade-down" data-aos-delay="0" class="mb-4 text-xs tracking-[0.35em] text-white/60 uppercase">Clothing &middot; Indonesia &middot; Est. 2024</p>
+            <h1 data-aos="zoom-in" data-aos-delay="150" class="font-serif text-6xl tracking-wide sm:text-7xl md:text-8xl">EMBODIED</h1>
+            <p data-aos="fade-up" data-aos-delay="300" class="mt-6 text-lg tracking-[0.2em] text-white/70 italic font-marquee">Wear What You Are</p>
 
-            <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div data-aos="fade-up" data-aos-delay="450" class="mt-10 flex flex-col gap-3 sm:flex-row">
                 <a href="#collection" class="border border-white bg-cream px-8 py-3 text-[11px] tracking-[0.2em] text-neutral-900 uppercase hover:bg-cream/90">Shop Collection</a>
                 <a href="#studio" class="border border-white/70 px-8 py-3 text-[11px] tracking-[0.2em] text-white uppercase hover:bg-white/10">Our Story</a>
             </div>
         </div>
 
-        <div class="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-white/60">
+        <div data-aos="fade-in" data-aos-delay="600" class="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-white/60">
             <span class="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
             <span class="h-8 w-px bg-white/40"></span>
         </div>
@@ -56,7 +65,7 @@
 
     {{-- Collection --}}
     <section id="collection" class="mx-auto max-w-7xl px-6 py-24 sm:px-10">
-        <div class="mb-10 flex items-end justify-between">
+        <div data-aos="fade-up" class="mb-10 flex items-end justify-between">
             <div>
                 <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">New Arrival</p>
                 <h2 class="font-serif text-4xl">Collection</h2>
@@ -66,6 +75,7 @@
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <x-product-teaser
+                data-aos="fade-up"
                 :name="$newArrivals->first()->name"
                 :price="$newArrivals->first()->formatted_price"
                 :badge="$newArrivals->first()->badge"
@@ -79,6 +89,8 @@
             <div class="grid grid-cols-2 gap-4 lg:col-span-2">
                 @foreach ($newArrivals->slice(1) as $product)
                     <x-product-teaser
+                        data-aos="fade-up"
+                        data-aos-delay="{{ $loop->index * 100 }}"
                         :name="$product->name"
                         :price="$product->formatted_price"
                         :gradient="$product->gradient"
@@ -93,11 +105,11 @@
 
     {{-- Studio notes --}}
     <section id="studio" class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 pb-24 sm:px-10 lg:grid-cols-2">
-        <div class="aspect-4/5 w-full max-w-md overflow-hidden bg-neutral-200">
+        <div data-aos="fade-right" class="aspect-4/5 w-full max-w-md overflow-hidden bg-neutral-200">
             <img src="{{ $aboutImage }}" alt="Embodied studio founder wearing a black polo and tailored trousers" class="h-full w-full object-cover">
         </div>
 
-        <div>
+        <div data-aos="fade-left">
             <p class="mb-3 text-xs tracking-[0.3em] text-neutral-500 uppercase">Studio Notes</p>
             <h3 class="mb-6 font-serif text-3xl leading-snug sm:text-4xl">&ldquo;Clothing that becomes a second skin.&rdquo;</h3>
             <p class="mb-4 text-sm leading-relaxed text-neutral-600">We work with natural fibres — linen, cotton, tencel — that breathe with the body and soften with wear. Every piece is cut to move, not to restrict.</p>
@@ -113,12 +125,14 @@
     {{-- Lookbook --}}
     <section id="lookbook" class="px-6 py-24 sm:px-10">
         <div class="mx-auto max-w-7xl text-center">
-            <p class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">Collection</p>
-            <h2 class="font-serif text-4xl">The Lookbook</h2>
+            <p data-aos="fade-up" class="mb-2 text-xs tracking-[0.3em] text-neutral-500 uppercase">Collection</p>
+            <h2 data-aos="fade-up" class="font-serif text-4xl">The Lookbook</h2>
 
             <div class="mt-12 grid grid-cols-1 gap-6 text-left md:grid-cols-3">
                 @forelse ($lookbook as $product)
                     <x-lookbook-card
+                        data-aos="fade-up"
+                        data-aos-delay="{{ $loop->index * 100 }}"
                         :label="$product->name"
                         :price="$product->formatted_price"
                         :gradient="$product->gradient"
@@ -134,7 +148,7 @@
 
     {{-- Footer --}}
     <footer id="about" class="bg-black px-6 py-16 text-white sm:px-10">
-        <div class="mx-auto grid max-w-7xl grid-cols-2 gap-10 lg:grid-cols-4">
+        <div data-aos="fade-up" class="mx-auto grid max-w-7xl grid-cols-2 gap-10 lg:grid-cols-4">
             <div class="col-span-2 lg:col-span-1">
                 <p class="mb-3 text-xs font-medium tracking-[0.25em] uppercase">Embodied</p>
                 <p class="mb-6 text-sm text-white/70">Wear what you are.</p>

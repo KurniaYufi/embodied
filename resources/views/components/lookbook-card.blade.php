@@ -6,7 +6,7 @@
     'image' => null,
 ])
 
-<a href="{{ $href }}" class="group block">
+<a href="{{ $href }}" {{ $attributes->merge(['class' => 'group block']) }}>
     <div class="relative aspect-3/4 w-full overflow-hidden bg-neutral-100">
         <x-product-image :image="$image" :gradient="$gradient" :alt="$label" class="transition-transform duration-500 group-hover:scale-105" />
     </div>

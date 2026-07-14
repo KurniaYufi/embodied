@@ -1,5 +1,5 @@
 <x-layouts::auth.split :title="__('Log in')">
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6 px-1">
         <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
 
         <!-- Session Status -->
